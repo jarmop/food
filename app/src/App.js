@@ -4,32 +4,12 @@ import 'react-bootstrap-typeahead/css/Typeahead.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
 import recommendations from './data/recommendations';
+import food from './data/food';
 
-let total = [
-  77.4,
-  0,
-  0.7,
-  0.07,
-  0.16,
-  0.9,
-  79.1,
-  0,
-  78,
-  48,
-  90,
-  400,
-  24,
-  1.1,
-  0.1,
-  1,
-  0.4,
-  50,
-  20
-];
+let total = recommendations.map(recommendation => food[153].nutrients[recommendation.id]);
 
 let foods = {
-  28913: "peruna",
-  5: "het",
+  153: "kaurahiutale",
 };
 
 let foodOptions = Object.keys(foods).map(foodId => ({id: foodId, label: foods[foodId]}));
@@ -38,7 +18,7 @@ class App extends Component {
   constructor(props) {
     super();
    this.state = {
-     selectedFoods: [5],
+     selectedFoods: [153],
    };
   }
 
@@ -47,8 +27,6 @@ class App extends Component {
     if (selectedFoods.includes(newFoodId)) {
       return;
     }
-
-    // fineli.getFood(newFoodId);
 
     selectedFoods.push(newFoodId);
 
@@ -65,6 +43,11 @@ class App extends Component {
                 options={foodOptions}
                 onChange={(selected) => this.selectFood(parseInt(selected.pop().id))}
             />
+            {this.state.selectedFoods.map(foodId =>
+                <div key={foodId}>
+                  {food[foodId].name}
+                </div>
+            )}
           </div>
           <div>
             <table className="table">
