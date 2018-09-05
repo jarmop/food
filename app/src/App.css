@@ -1,0 +1,23 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+}
+
+.bar {
+  border: 1px solid black;
+  height: 1rem;
+}
+
+.bar__fill {
+  background-color: black;
+  height: 100%;
+  width: 0%;
+}
+
+.input-container {
+  width: 200px;
+}
+
+.food-column {
+  width: 60px;
+}
