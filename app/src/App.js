@@ -4,50 +4,75 @@ import 'react-bootstrap-typeahead/css/Typeahead.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
 import recommendations from './data/recommendations';
-import food from './data/food';
+import foods from './data/food';
 
 let total = recommendations.map(recommendation => {
-  return food[153].nutrients[recommendation.id];
+  return foods[153].nutrients[recommendation.id];
 });
 
-let foodOptions = Object.keys(food).map(foodId => ({id: foodId, label: food[foodId].name}));
+let foodOptions = Object.keys(foods)
+    .map(foodId => ({id: foodId, label: foods[foodId].name}));
 
 class App extends Component {
-  constructor(props) {
+  constructor(props) {
     super();
-   this.state = {
-     selectedFoods: [153],
-     total: total,
-   };
+    let selectedFoods = [
+      {
+        id: 4401,
+        amount: 23,
+      },
+      {
+        id: 153,
+        amount: 30,
+      },
+    ];
+    this.state = {
+      selectedFoods: selectedFoods,
+      total: this.calculateTotal(selectedFoods),
+    };
   }
 
-  selectFood(newFoodId) {
+  calculateTotal(selectedFoods) {
+    return recommendations.map(recommendation => {
+      return selectedFoods.reduce(
+          (value, food) => value + food.amount / 100 * foods[food.id].nutrients[recommendation.id],
+          0
+      );
+    })
+  }
+
+  selectFood(newFoodId, amount) {
     let selectedFoods = this.state.selectedFoods.slice();
-    if (selectedFoods.includes(newFoodId)) {
+    if (selectedFoods.reduce(
+        (hasNewFood, food) => newFoodId === food.id), false) {
       return;
     }
 
-    selectedFoods.push(newFoodId);
+    selectedFoods.push({
+      id: newFoodId,
+      amount: amount,
+    });
 
     this.setState({
       selectedFoods: selectedFoods,
-      total: recommendations.map(recommendation => {
-        return selectedFoods.reduce((value, foodId) => value + food[foodId].nutrients[recommendation.id], 0);
-      })
+      total: this.calculateTotal(selectedFoods),
     });
   }
 
   render() {
+    console.log(this.state.selectedFoods);
+
     return (
         <div className="grid">
           <div className="input-container">
             <Typeahead
                 options={foodOptions}
-                onChange={(selected) => this.selectFood(parseInt(selected.pop().id))}
+                onChange={(selected) => this.selectFood(
+                    parseInt(selected.pop().id), 30)}
             />
-            {this.state.selectedFoods.map(foodId =>
-                <div key={foodId}>
-                  {food[foodId].name}
+            {this.state.selectedFoods.map(selectedFood =>
+                <div key={selectedFood.id}>
+                  {foods[selectedFood.id].name}
                 </div>
             )}
           </div>
@@ -64,14 +89,17 @@ class App extends Component {
               {recommendations.map((recommendation, index) =>
                   <tr key={index}>
                     <td>{recommendation.name}</td>
-                      <td>
-                        <div className="bar">
-                          <div
-                              className="bar__fill"
-                              style={{width: Math.min(this.state.total[index] / recommendation.male * 100, 100) + '%'}}
-                          ></div>
-                        </div>
-                      </td>
+                    <td>
+                      <div className="bar">
+                        <div
+                            className="bar__fill"
+                            style={{
+                              width: Math.min(this.state.total[index] /
+                                  recommendation.male * 100, 100) + '%'
+                            }}
+                        ></div>
+                      </div>
+                    </td>
                     <td>
                       {recommendation.male} {recommendation.unit}
                     </td>
