@@ -154,7 +154,7 @@ class App extends Component {
             )}
           </div>
           <div>
-            <table className="table">
+            <table>
               <thead>
               <tr>
                 <th>Name</th>
