@@ -4,7 +4,7 @@ import 'react-bootstrap-typeahead/css/Typeahead.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
 import recommendations from './data/recommendations';
-import foods from './data/food';
+import foods from './data/foods';
 
 let total = recommendations.map(recommendation => {
   return foods[153].nutrients[recommendation.id];
@@ -22,9 +22,33 @@ class App extends Component {
         amount: 23,
       },
       {
-        id: 153,
-        amount: 30,
+        id: 7871,
+        amount: 96,
       },
+      {
+        id: 346,
+        amount: 100,
+      },
+      {
+        id: 352,
+        amount: 100,
+      },
+      {
+        id: 30394,
+        amount: 65,
+      },
+      {
+        id: 423,
+        amount: 190,
+      },
+      {
+        id: 4404,
+        amount: 165,
+      },
+      // {
+      //   id: 153,
+      //   amount: 30,
+      // },
     ];
     this.state = {
       selectedFoods: selectedFoods,

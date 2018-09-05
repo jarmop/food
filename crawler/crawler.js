@@ -1,7 +1,13 @@
 const request = require('request');
+var fs = require('fs');
 const recommendations = require('../data/recommendations');
+const foods = require('../data/foods');
+let fileName = '../data/foods.json';
 
-let foodId = 4401;
+let foodId = process.argv[2];
+
+// console.log(foodId);
+// process.exit();
 
 let url = 'https://fineli.fi/fineli/api/v1/foods/' + foodId;
 
@@ -26,7 +32,7 @@ var mapNutrientIdToFineliDataIndex = {
   19: 39
 };
 
-request(url, { json: true }, (error, response, body) => {
+request(url, {json: true}, (error, response, body) => {
   if (error) {
     return console.log(error);
   }
@@ -36,9 +42,19 @@ request(url, { json: true }, (error, response, body) => {
     data[rec.id] = body.data[mapNutrientIdToFineliDataIndex[rec.id]];
   });
 
-  console.log(JSON.stringify({
+  // console.log(JSON.stringify({
+  //   name: body.name.fi,
+  //   nutrients: data
+  // }));
+
+  foods[foodId] = {
     name: body.name.fi,
     nutrients: data
-  }));
+  };
+  console.log(JSON.stringify(foods));
+
+  fs.writeFile(fileName, JSON.stringify(foods), error => {
+    console.log(body.name.fi + ' added to ' + fileName);
+  });
 });
 
