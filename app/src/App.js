@@ -27,11 +27,11 @@ class App extends Component {
       },
       {
         id: 346,
-        amount: 100,
+        amount: 190,
       },
       {
         id: 352,
-        amount: 100,
+        amount: 230,
       },
       {
         id: 30394,
@@ -39,16 +39,65 @@ class App extends Component {
       },
       {
         id: 423,
-        amount: 190,
+        amount: 275,
       },
       {
         id: 4404,
-        amount: 165,
+        amount: 283,
       },
-      // {
-      //   id: 153,
-      //   amount: 30,
-      // },
+      {
+        id: 153,
+        amount: 30,
+      },
+      {
+        id: 440,
+        amount: 20,
+      },
+      {
+        id: 33569,
+        amount: 50,
+      },
+      // Ei ole sirkkistä Finelissä :(
+      {
+        id: 35188,
+        amount: 123,
+      },
+      {
+        id: 34972,
+        amount: 30,
+      },
+      {
+        id: 29772,
+        amount: 12,
+      },
+      {
+        id: 30382,
+        amount: 35,
+      },
+      {
+        id: 30617,
+        amount: 7,
+      },
+      {
+        id: 11072,
+        amount: 10,
+      },
+      {
+        id: 353,
+        amount: 5,
+      },
+      {
+        id: 30210,
+        amount: 100,
+      },
+      {
+        id: 30209,
+        amount: 325,
+      },
+      {
+        id: 300,
+        amount: 116,
+      },
     ];
     this.state = {
       selectedFoods: selectedFoods,
@@ -59,7 +108,10 @@ class App extends Component {
   calculateTotal(selectedFoods) {
     return recommendations.map(recommendation => {
       return selectedFoods.reduce(
-          (value, food) => value + food.amount / 100 * foods[food.id].nutrients[recommendation.id],
+          (value, food) => {
+            // console.log(food);
+            return value + food.amount / 100 * foods[food.id].nutrients[recommendation.id]
+          },
           0
       );
     })
@@ -84,7 +136,7 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.state.selectedFoods);
+    // console.log(this.state.selectedFoods);
 
     return (
         <div className="grid">
