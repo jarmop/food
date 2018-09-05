@@ -110,11 +110,12 @@ class App extends Component {
       return selectedFoods.reduce(
           (value, food) => {
             // console.log(food);
-            return value + food.amount / 100 * foods[food.id].nutrients[recommendation.id]
+            return value + food.amount / 100 *
+                foods[food.id].nutrients[recommendation.id];
           },
           0
       );
-    })
+    });
   }
 
   selectFood(newFoodId, amount) {
@@ -148,7 +149,7 @@ class App extends Component {
             />
             {this.state.selectedFoods.map(selectedFood =>
                 <div key={selectedFood.id}>
-                  {foods[selectedFood.id].name}
+                  {foods[selectedFood.id].name}, {selectedFood.amount} g
                 </div>
             )}
           </div>
@@ -159,6 +160,8 @@ class App extends Component {
                 <th>Name</th>
                 <th>Total</th>
                 <th>Recommendation</th>
+                <th>Max</th>
+                <th>Unit</th>
               </tr>
               </thead>
               <tbody>
@@ -175,9 +178,18 @@ class App extends Component {
                             }}
                         ></div>
                       </div>
+                      <div className="total-amount">
+                        {this.state.total[index].toFixed(1)}
+                      </div>
                     </td>
                     <td>
-                      {recommendation.male} {recommendation.unit}
+                      {recommendation.male}
+                    </td>
+                    <td>
+                      {recommendation.max}
+                    </td>
+                    <td>
+                      {recommendation.unit}
                     </td>
                   </tr>
               )}

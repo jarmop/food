@@ -1,23 +1,26 @@
 .grid {
-  display: grid;
-  grid-template-columns: repeat(3, auto);
+    display: grid;
+    grid-template-columns: repeat(3, auto);
 }
 
 .bar {
-  border: 1px solid black;
-  height: 1rem;
+    border: 1px solid black;
+    height: 1rem;
+    display: inline-block;
+    width: 100px;
 }
 
 .bar__fill {
-  background-color: black;
-  height: 100%;
-  width: 0%;
+    background-color: black;
+    height: 100%;
+    width: 0%;
+}
+
+.total-amount {
+    display: inline-block;
+    margin-left: 10px;
 }
 
 .input-container {
-  width: 200px;
-}
-
-.food-column {
-  width: 60px;
+    /*width: 200px;*/
 }
