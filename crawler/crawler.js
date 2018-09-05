@@ -1,7 +1,9 @@
 const request = require('request');
 const recommendations = require('../data/recommendations');
 
-let url = 'https://fineli.fi/fineli/api/v1/foods/153';
+let foodId = 4401;
+
+let url = 'https://fineli.fi/fineli/api/v1/foods/' + foodId;
 
 var mapNutrientIdToFineliDataIndex = {
   1: 50,
@@ -34,6 +36,9 @@ request(url, { json: true }, (error, response, body) => {
     data[rec.id] = body.data[mapNutrientIdToFineliDataIndex[rec.id]];
   });
 
-  console.log(JSON.stringify(data));
+  console.log(JSON.stringify({
+    name: body.name.fi,
+    nutrients: data
+  }));
 });
 

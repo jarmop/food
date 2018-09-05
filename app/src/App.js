@@ -6,19 +6,18 @@ import './App.css';
 import recommendations from './data/recommendations';
 import food from './data/food';
 
-let total = recommendations.map(recommendation => food[153].nutrients[recommendation.id]);
+let total = recommendations.map(recommendation => {
+  return food[153].nutrients[recommendation.id];
+});
 
-let foods = {
-  153: "kaurahiutale",
-};
-
-let foodOptions = Object.keys(foods).map(foodId => ({id: foodId, label: foods[foodId]}));
+let foodOptions = Object.keys(food).map(foodId => ({id: foodId, label: food[foodId].name}));
 
 class App extends Component {
   constructor(props) {
     super();
    this.state = {
      selectedFoods: [153],
+     total: total,
    };
   }
 
@@ -31,7 +30,10 @@ class App extends Component {
     selectedFoods.push(newFoodId);
 
     this.setState({
-      selectedFoods: selectedFoods
+      selectedFoods: selectedFoods,
+      total: recommendations.map(recommendation => {
+        return selectedFoods.reduce((value, foodId) => value + food[foodId].nutrients[recommendation.id], 0);
+      })
     });
   }
 
@@ -54,9 +56,6 @@ class App extends Component {
               <thead>
               <tr>
                 <th>Name</th>
-                {/*{this.state.selectedFoods.map(foodId =>*/}
-                    {/*<th key={foodId} className="food-column">{foods[foodId]}</th>*/}
-                {/*)}*/}
                 <th>Total</th>
                 <th>Recommendation</th>
               </tr>
@@ -65,17 +64,14 @@ class App extends Component {
               {recommendations.map((recommendation, index) =>
                   <tr key={index}>
                     <td>{recommendation.name}</td>
-                    {this.state.selectedFoods.map(foodId =>
-                        <td key={foodId}>
-                          {/*{Math.min(Math.round(total[index] / recommendation.male * 100), 100)}*/}
-                          <div className="bar">
-                            <div
-                                className="bar__fill"
-                                style={{width: Math.min(total[index] / recommendation.male * 100, 100) + '%'}}
-                            ></div>
-                          </div>
-                        </td>
-                    )}
+                      <td>
+                        <div className="bar">
+                          <div
+                              className="bar__fill"
+                              style={{width: Math.min(this.state.total[index] / recommendation.male * 100, 100) + '%'}}
+                          ></div>
+                        </div>
+                      </td>
                     <td>
                       {recommendation.male} {recommendation.unit}
                     </td>
