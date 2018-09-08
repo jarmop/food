@@ -1,17 +1,19 @@
 const request = require('request');
-var fs = require('fs');
+const fs = require('fs');
 const recommendations = require('../data/recommendations');
 const foods = require('../data/foods');
-let fileName = '../data/foods.json';
+const outputFile = '../data/foods.json';
+// const outputFile = '../data/new-foods.json';
+const kcalToKjRatio = 4.184;
 
-let foodId = process.argv[2];
 
 // console.log(foodId);
 // process.exit();
 
-let url = 'https://fineli.fi/fineli/api/v1/foods/' + foodId;
+const URL = 'https://fineli.fi/fineli/api/v1/foods/[FOOD_ID]';
 
-var mapNutrientIdToFineliDataIndex = {
+
+const mapNutrientIdToFineliDataIndex = {
   1: 50,
   2: 52,
   3: 53,
@@ -29,32 +31,88 @@ var mapNutrientIdToFineliDataIndex = {
   15: 32,
   16: 40,
   18: 33,
-  19: 39
+  19: 39,
+  21: 3,
+  22: 2,
+  23: 1,
 };
 
-request(url, {json: true}, (error, response, body) => {
-  if (error) {
-    return console.log(error);
-  }
+const nutrientIdForEnergy = 20;
+const fineliDataIndexForEnergy = 0;
 
-  let data = {};
-  recommendations.map(rec => {
-    data[rec.id] = body.data[mapNutrientIdToFineliDataIndex[rec.id]];
+
+// let foodIds = Object.keys(foods);
+let foodIds = [
+  '153',
+  '300',
+  '346',
+  '352',
+  '353',
+  '423',
+  '440',
+  '829',
+  '4401',
+  '4404',
+  '7871',
+  '11072',
+  '28941',
+  '29771',
+  '29772',
+  '30209',
+  '30210',
+  '30382',
+  '30394',
+  '30617',
+  '33569',
+  '34972',
+  '35188'
+];
+
+const getFood = (foodId) => {
+  return new Promise((resolve, reject) => {
+    let url = URL.replace(/\[FOOD_ID\]/, foodId);
+    request(url, {json: true}, (error, response, body) => {
+      if (error) {
+        reject(error);
+      }
+
+      let food = {
+        id: foodId,
+        name: body.name.fi
+      };
+      let nutrients = {};
+      recommendations.map(rec => {
+        nutrients[rec.id] = body.data[mapNutrientIdToFineliDataIndex[rec.id]];
+      });
+
+      nutrients[nutrientIdForEnergy] = Math.round(body.data[fineliDataIndexForEnergy] / kcalToKjRatio);
+      food.nutrients = nutrients;
+
+      resolve(food);
+    });
   });
+};
 
+const saveFood = (food) => {
   // console.log(JSON.stringify({
-  //   name: body.name.fi,
-  //   nutrients: data
-  // }));
+//   name: body.name.fi,
+//   nutrients: data
+// }));
 
-  foods[foodId] = {
-    name: body.name.fi,
-    nutrients: data
-  };
+  foods[food.id] = food;
+  // console.log(foods);
   console.log(JSON.stringify(foods));
 
-  fs.writeFile(fileName, JSON.stringify(foods), error => {
-    console.log(body.name.fi + ' added to ' + fileName);
+  fs.writeFile(outputFile, JSON.stringify(foods), error => {
+    console.log(food.name + ' added to ' + outputFile);
   });
-});
+};
 
+const addFoodData = (foodId) => {
+  getFood(foodId)
+      .then(saveFood)
+      .catch(error => console.log(error));
+};
+
+// foodIds.map(foodId => addFoodData(foodId));
+addFoodData(process.argv[2]);
