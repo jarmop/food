@@ -1,6 +1,7 @@
 .grid {
     display: grid;
-    grid-template-columns: repeat(3, auto);
+    grid-template-columns: repeat(2, auto);
+    grid-gap: 1rem;
 }
 
 .bar {
@@ -19,4 +20,8 @@
 .total-amount {
     display: inline-block;
     margin-left: 10px;
+}
+
+.food-list {
+    margin: 1rem;
 }

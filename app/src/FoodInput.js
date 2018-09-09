@@ -45,13 +45,14 @@ class FoodInput extends React.Component {
           <Typeahead
               options={foodOptions}
               onChange={selected => this.setFood(parseInt(selected.pop().id))}
+              placeholder="Select food"
           />
           <div>
             <input
                 className="input-amount form-control"
                 type="number"
                 value={this.state.amount}
-                onChange={event => this.setAmount(event.target.value)}
+                onChange={event => this.setAmount(parseInt(event.target.value))}
             /> g
           </div>
           <input

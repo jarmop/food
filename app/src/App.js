@@ -59,6 +59,8 @@ class App extends Component {
       selectedFoods: selectedFoods,
       total: this.calculateTotal(selectedFoods),
     });
+
+    console.log(JSON.stringify(selectedFoods));
   }
 
   render() {
@@ -68,11 +70,13 @@ class App extends Component {
         <div className="grid">
           <div>
             <FoodInput foodOptions={foodOptions} onAdd={this.selectFood}/>
-            {this.state.selectedFoods.map(selectedFood =>
-                <div key={selectedFood.id}>
-                  {foods[selectedFood.id].name}, {selectedFood.amount} g
-                </div>
-            )}
+            <div className="food-list">
+              {this.state.selectedFoods.map((selectedFood, index) =>
+                  <div key={index}>
+                    {foods[selectedFood.id].name}, {selectedFood.amount} g
+                  </div>
+              )}
+            </div>
           </div>
           <div>
             <table>
