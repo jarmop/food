@@ -1,0 +1,9 @@
+.input-container {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+}
+
+.input-amount {
+    display: inline-block;
+    width: 100px;
+}

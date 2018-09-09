@@ -143,22 +143,26 @@ const meals = [
     },
     {
       id: 346,
-      amount: 120,
+      amount: 280,
     },
     {
       id: 352,
-      amount: 112,
+      amount: 280,
     },
     {
       id: 33569,
-      amount: 8,
+      amount: 15,
     },
     {
       id: 30617,
-      amount: 5,
+      amount: 30,
     },
     {
       id: 29771,
+      amount: 24,
+    },
+    {
+      id: 29772,
       amount: 12,
     },
     {
@@ -175,47 +179,64 @@ const meals = [
     },
     {
       id: 28955,
+      amount: 330,
+    },
+    {
+      id: 34972,
+      amount: 30,
+    },
+    {
+      id: 3710,
+      amount: 186,
+    },
+    {
+      id: 353,
+      amount: 5,
+    },
+    {
+      id: 32937,
+      amount: 100,
+    },
+    {
+      id: 835,
+      amount: 20,
+    },
+    {
+      id: 300,
+      amount: 111,
+    },
+    {
+      id: 535,
+      amount: 10,
+    },
+  ],
+  [
+    {
+      id: 32747,
+      amount: 200,
+    },
+    {
+      id: 30394,
+      amount: 50,
+    },
+    {
+      id: 346,
       amount: 70,
     },
+    {
+      id: 352,
+      amount: 70,
+    },
+    {
+      id: 34688,
+      amount: 250,
+    },
 
-
     // {
-    //   id: 4404,
-    //   amount: 283,
-    // },
-    // {
-    //   id: 153,
-    //   amount: 30,
-    // },
-    // {
-    //   id: 440,
-    //   amount: 20,
-    // },
-    // {
-    //   id: 29772,
-    //   amount: 12,
-    // },
-    // {
-    //   id: 30382,
-    //   amount: 35,
-    // },
-    // {
-    //   id: 28941,
+    //   id: 33424,
     //   amount: 100,
     // },
-    // {
-    //   id: 11072,
-    //   amount: 10,
-    // },
-    // {
-    //   id: 30210,
-    //   amount: 100,
-    // },
-    // {
-    //   id: 300,
-    //   amount: 116,
-    // },
-  ],
+  ]
 ];
 
 export default meals;

@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
-import {Typeahead} from 'react-bootstrap-typeahead';
-import 'react-bootstrap-typeahead/css/Typeahead.css';
-import 'bootstrap/dist/css/bootstrap.css';
+// import {Typeahead} from 'react-bootstrap-typeahead';
+// import 'react-bootstrap-typeahead/css/Typeahead.css';
+// import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
 import recommendations from './data/recommendations';
 import foods from './data/foods';
 import meals from './data/meals';
+import FoodInput from './FoodInput';
 
 let total = recommendations.map(recommendation => {
   return foods[153].nutrients[recommendation.id];
@@ -19,11 +20,14 @@ class App extends Component {
     super();
     // let selectedFoods = meals[0];
     // let selectedFoods = meals[1];
-    let selectedFoods = meals[2];
+    // let selectedFoods = meals[2];
+    let selectedFoods = meals[3];
     this.state = {
       selectedFoods: selectedFoods,
       total: this.calculateTotal(selectedFoods),
     };
+
+    this.selectFood = this.selectFood.bind(this);
   }
 
   calculateTotal(selectedFoods) {
@@ -62,12 +66,8 @@ class App extends Component {
 
     return (
         <div className="grid">
-          <div className="input-container">
-            <Typeahead
-                options={foodOptions}
-                onChange={(selected) => this.selectFood(
-                    parseInt(selected.pop().id), 30)}
-            />
+          <div>
+            <FoodInput foodOptions={foodOptions} onAdd={this.selectFood}/>
             {this.state.selectedFoods.map(selectedFood =>
                 <div key={selectedFood.id}>
                   {foods[selectedFood.id].name}, {selectedFood.amount} g
