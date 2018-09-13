@@ -294,17 +294,24 @@ const meals = [
   ],
   [
     {'id': 33278, 'amount': 300},
-    {'id': 34239, 'amount': 100},
-    {'id': 34909, 'amount': 50},
-    {'id': 423, 'amount': 250},
-    {'id': 352, 'amount': 100},
-    {'id': 346, 'amount': 100},
+    {'id': 34239, 'amount': 200},
+    {'id': 34909, 'amount': 100},
+    {'id': 423, 'amount': 300},
+    {'id': 352, 'amount': 200},
+    {'id': 346, 'amount': 250},
     {'id': 384, 'amount': 25},
-    {'id': 31812, 'amount': 100},
+    {'id': 31812, 'amount': 200},
     {'id': 153, 'amount': 40},
-    {'id': 606, 'amount': 120},
-    {'id': 30209, 'amount': 100}
-  ]
+    {'id': 606, 'amount': 300},
+    {'id': 30209, 'amount': 180},
+    {'id': 34688, 'amount': 310},
+    {'id': 300, 'amount': 130},
+    {'id': 30392, 'amount': 170},
+    {'id': 33569, 'amount': 10},
+    {'id': 28955, 'amount': 100},
+    {'id': 34972, 'amount': 5}
+  ],
+  []
 ];
 
 export default meals;

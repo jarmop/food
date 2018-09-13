@@ -11,6 +11,10 @@ db.settings({
   timestampsInSnapshots: true
 });
 
+/**
+ * @param foods
+ * @returns {Promise<void>}
+ */
 exports.setFoodBatch = (foods) => {
   let batch = db.batch();
   foods.map(food => {
@@ -19,4 +23,12 @@ exports.setFoodBatch = (foods) => {
   });
 
   return batch.commit();
+};
+
+/**
+ * @param food
+ * @returns {Promise<void>}
+ */
+exports.setFood = (food) => {
+  return db.collection(COLLECTION_FOODS).doc(food.id).set(food);
 };

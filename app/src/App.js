@@ -42,7 +42,8 @@ class App extends Component {
       // let selectedFoods = meals[4];
       // let selectedFoods = meals[5];
       // let selectedFoods = meals[6];
-      let selectedFoods = meals[7];
+      // let selectedFoods = meals[7];
+      let selectedFoods = meals[8];
       this.setState({
         selectedFoods: selectedFoods,
         total: this.calculateTotal(selectedFoods),
@@ -127,7 +128,7 @@ class App extends Component {
                         ></div>
                       </div>
                       <div className="total-amount">
-                        {this.state.total[index].toFixed(1)}
+                        {this.state.total[index].toFixed(this.state.total[index] < 10 ? 1 : 0)}
                       </div>
                     </td>
                     <td>

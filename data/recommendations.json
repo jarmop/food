@@ -42,7 +42,7 @@
     "female": 700,
     "max": 3000,
     "nutrientDensity": 336,
-    "unit": "RE"
+    "unit": "µg"
   },
   {
     "id": 2,
@@ -60,7 +60,7 @@
     "female": 8,
     "max": 300,
     "nutrientDensity": 3.8,
-    "unit": "α-TE"
+    "unit": "mg"
   },
   {
     "id": 4,
@@ -87,7 +87,7 @@
     "female": 15,
     "max": null,
     "nutrientDensity": 6.7,
-    "unit": "NE"
+    "unit": "mg"
   },
   {
     "id": 7,

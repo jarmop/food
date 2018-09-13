@@ -1,9 +1,10 @@
 const request = require('request');
 const fs = require('fs');
 const recommendations = require('../data/recommendations');
-const foods = require('../data/foods');
-const outputFile = '../data/foods.json';
+// const foods = require('../data/foods');
+// const outputFile = '../data/foods.json';
 // const outputFile = '../data/new-foods.json';
+const firestore = require('./firestore');
 const kcalToKjRatio = 4.184;
 
 
@@ -40,34 +41,6 @@ const mapNutrientIdToFineliDataIndex = {
 const nutrientIdForEnergy = 20;
 const fineliDataIndexForEnergy = 0;
 
-
-// let foodIds = Object.keys(foods);
-let foodIds = [
-  '153',
-  '300',
-  '346',
-  '352',
-  '353',
-  '423',
-  '440',
-  '829',
-  '4401',
-  '4404',
-  '7871',
-  '11072',
-  '28941',
-  '29771',
-  '29772',
-  '30209',
-  '30210',
-  '30382',
-  '30394',
-  '30617',
-  '33569',
-  '34972',
-  '35188'
-];
-
 const getFood = (foodId) => {
   return new Promise((resolve, reject) => {
     let url = URL.replace(/\[FOOD_ID\]/, foodId);
@@ -94,25 +67,10 @@ const getFood = (foodId) => {
 };
 
 const saveFood = (food) => {
-  // console.log(JSON.stringify({
-//   name: body.name.fi,
-//   nutrients: data
-// }));
-
-  foods[food.id] = food;
-  // console.log(foods);
-  console.log(JSON.stringify(foods));
-
-  fs.writeFile(outputFile, JSON.stringify(foods), error => {
-    // console.log(food.name + ' added to ' + outputFile);
-  });
+  return firestore.setFood(food);
 };
 
-const addFoodData = (foodId) => {
-  getFood(foodId)
-      .then(saveFood)
-      .catch(error => console.log(error));
-};
-
-// foodIds.map(foodId => addFoodData(foodId));
-addFoodData(process.argv[2]);
+getFood(process.argv[2]).then(saveFood).then(() => {
+  console.log('done');
+  process.exit();
+});
