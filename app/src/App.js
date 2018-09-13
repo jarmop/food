@@ -4,30 +4,51 @@ import React, {Component} from 'react';
 // import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
 import recommendations from './data/recommendations';
-import foods from './data/foods';
+// import foods from './data/foods';
+import * as firestore from './firestore';
 import meals from './data/meals';
 import FoodInput from './FoodInput';
 
-let total = recommendations.map(recommendation => {
-  return foods[153].nutrients[recommendation.id];
-});
+let foods = {};
 
-let foodOptions = Object.keys(foods)
-    .map(foodId => ({id: foodId, label: foods[foodId].name}));
+let total = [];
+
+let foodOptions = [];
 
 class App extends Component {
   constructor(props) {
     super();
-    // let selectedFoods = meals[0];
-    // let selectedFoods = meals[1];
-    // let selectedFoods = meals[2];
-    let selectedFoods = meals[3];
+
     this.state = {
-      selectedFoods: selectedFoods,
-      total: this.calculateTotal(selectedFoods),
+      initialized: false,
     };
 
     this.selectFood = this.selectFood.bind(this);
+  }
+
+  componentDidMount() {
+    firestore.getFoods().then(foodsFromFirestore => {
+      foods = foodsFromFirestore;
+      total = recommendations.map(recommendation => {
+        return foods[153].nutrients[recommendation.id];
+      });
+
+      foodOptions = Object.keys(foods).map(foodId => ({id: foodId, label: foods[foodId].name}));
+
+      // let selectedFoods = meals[0];
+      // let selectedFoods = meals[1];
+      // let selectedFoods = meals[2];
+      // let selectedFoods = meals[3];
+      // let selectedFoods = meals[4];
+      // let selectedFoods = meals[5];
+      // let selectedFoods = meals[6];
+      let selectedFoods = meals[7];
+      this.setState({
+        selectedFoods: selectedFoods,
+        total: this.calculateTotal(selectedFoods),
+        initialized: true,
+      });
+    });
   }
 
   calculateTotal(selectedFoods) {
@@ -45,8 +66,7 @@ class App extends Component {
 
   selectFood(newFoodId, amount) {
     let selectedFoods = this.state.selectedFoods.slice();
-    if (selectedFoods.reduce(
-        (hasNewFood, food) => newFoodId === food.id), false) {
+    if (selectedFoods.reduce((hasNewFood, food) => newFoodId === food.id, false)) {
       return;
     }
 
@@ -65,6 +85,9 @@ class App extends Component {
 
   render() {
     // console.log(this.state.selectedFoods);
+    if (!this.state.initialized) {
+      return 'not ready';
+    }
 
     return (
         <div className="grid">

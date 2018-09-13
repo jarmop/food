@@ -104,7 +104,7 @@ const saveFood = (food) => {
   console.log(JSON.stringify(foods));
 
   fs.writeFile(outputFile, JSON.stringify(foods), error => {
-    console.log(food.name + ' added to ' + outputFile);
+    // console.log(food.name + ' added to ' + outputFile);
   });
 };
 
