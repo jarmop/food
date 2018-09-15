@@ -2,6 +2,7 @@ let firebase = require('firebase');
 let config = require('../config');
 
 const COLLECTION_FOODS = 'foods';
+const COLLECTION_MEALS = 'meals';
 
 firebase.initializeApp(config.firebase);
 
@@ -15,7 +16,7 @@ db.settings({
  * @param foods
  * @returns {Promise<void>}
  */
-exports.setFoodBatch = (foods) => {
+exports.setFoods = (foods) => {
   let batch = db.batch();
   foods.map(food => {
     let foodRef = db.collection(COLLECTION_FOODS).doc(food.id);
@@ -31,4 +32,14 @@ exports.setFoodBatch = (foods) => {
  */
 exports.setFood = (food) => {
   return db.collection(COLLECTION_FOODS).doc(food.id).set(food);
+};
+
+exports.setMeals = (meals) => {
+  let batch = db.batch();
+  meals.map(meal => {
+    let mealRef = db.collection(COLLECTION_MEALS).doc();
+    batch.set(mealRef, {foods: meal});
+  });
+
+  return batch.commit();
 };

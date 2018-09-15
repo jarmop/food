@@ -8,11 +8,10 @@ import recommendations from './data/recommendations';
 import * as firestore from './firestore';
 import meals from './data/meals';
 import FoodInput from './FoodInput';
+import FoodList from './FoodList';
+import NutrientTable from './NutrientTable';
 
 let foods = {};
-
-let total = [];
-
 let foodOptions = [];
 
 class App extends Component {
@@ -29,27 +28,19 @@ class App extends Component {
   componentDidMount() {
     firestore.getFoods().then(foodsFromFirestore => {
       foods = foodsFromFirestore;
-      total = recommendations.map(recommendation => {
-        return foods[153].nutrients[recommendation.id];
-      });
 
       foodOptions = Object.keys(foods).map(foodId => ({id: foodId, label: foods[foodId].name}));
 
-      // let selectedFoods = meals[0];
-      // let selectedFoods = meals[1];
-      // let selectedFoods = meals[2];
-      // let selectedFoods = meals[3];
-      // let selectedFoods = meals[4];
-      // let selectedFoods = meals[5];
-      // let selectedFoods = meals[6];
-      // let selectedFoods = meals[7];
-      let selectedFoods = meals[8];
+      // let selectedFoods = meals[8];
+      let selectedFoods = meals[meals.length - 1];
       this.setState({
         selectedFoods: selectedFoods,
         total: this.calculateTotal(selectedFoods),
         initialized: true,
       });
     });
+
+
   }
 
   calculateTotal(selectedFoods) {
@@ -94,56 +85,10 @@ class App extends Component {
         <div className="grid">
           <div>
             <FoodInput foodOptions={foodOptions} onAdd={this.selectFood}/>
-            <div className="food-list">
-              {this.state.selectedFoods.map((selectedFood, index) =>
-                  <div key={index}>
-                    {foods[selectedFood.id].name}, {selectedFood.amount} g
-                  </div>
-              )}
-            </div>
+            <FoodList selectedFoods={this.state.selectedFoods} foods={foods}/>
           </div>
           <div>
-            <table>
-              <thead>
-              <tr>
-                <th>Name</th>
-                <th>Total</th>
-                <th>Recommendation</th>
-                <th>Max</th>
-                <th>Unit</th>
-              </tr>
-              </thead>
-              <tbody>
-              {recommendations.map((recommendation, index) =>
-                  <tr key={index}>
-                    <td>{recommendation.name}</td>
-                    <td>
-                      <div className="bar">
-                        <div
-                            className="bar__fill"
-                            style={{
-                              width: Math.min(this.state.total[index] /
-                                  recommendation.male * 100, 100) + '%'
-                            }}
-                        ></div>
-                      </div>
-                      <div className="total-amount">
-                        {this.state.total[index].toFixed(this.state.total[index] < 10 ? 1 : 0)}
-                      </div>
-                    </td>
-                    <td>
-                      {recommendation.male}
-                    </td>
-                    <td>
-                      {recommendation.max}
-                    </td>
-                    <td>
-                      {recommendation.unit}
-                    </td>
-                  </tr>
-              )}
-              </tbody>
-            </table>
+            <NutrientTable recommendations={recommendations} total={this.state.total}/>
           </div>
         </div>
     );
