@@ -1,7 +1,23 @@
 import recommendations from './data/recommendations';
 import React from 'react';
 
-const NutrientTable = ({recommendations, total}) => {
+const calculateTotal = (recommendations, foods, selectedFoods) => {
+  return recommendations.map(recommendation => {
+    return selectedFoods.reduce(
+        (value, food) => {
+          // console.log(food);
+          return value + food.amount / 100 *
+              foods[food.id].nutrients[recommendation.id];
+        },
+        0
+    );
+  });
+};
+
+const NutrientTable = ({foods, selectedFoods}) => {
+
+  let total = calculateTotal(recommendations, foods, selectedFoods);
+
   return (
       <table>
         <thead>

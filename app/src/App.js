@@ -3,8 +3,6 @@ import React, {Component} from 'react';
 // import 'react-bootstrap-typeahead/css/Typeahead.css';
 // import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
-import recommendations from './data/recommendations';
-// import foods from './data/foods';
 import * as firestore from './firestore';
 import meals from './data/meals';
 import FoodInput from './FoodInput';
@@ -35,24 +33,8 @@ class App extends Component {
       let selectedFoods = meals[meals.length - 1];
       this.setState({
         selectedFoods: selectedFoods,
-        total: this.calculateTotal(selectedFoods),
         initialized: true,
       });
-    });
-
-
-  }
-
-  calculateTotal(selectedFoods) {
-    return recommendations.map(recommendation => {
-      return selectedFoods.reduce(
-          (value, food) => {
-            // console.log(food);
-            return value + food.amount / 100 *
-                foods[food.id].nutrients[recommendation.id];
-          },
-          0
-      );
     });
   }
 
@@ -69,7 +51,6 @@ class App extends Component {
 
     this.setState({
       selectedFoods: selectedFoods,
-      total: this.calculateTotal(selectedFoods),
     });
 
     console.log(JSON.stringify(selectedFoods));
@@ -85,10 +66,10 @@ class App extends Component {
         <div className="grid">
           <div>
             <FoodInput foodOptions={foodOptions} onAdd={this.selectFood}/>
-            <FoodList selectedFoods={this.state.selectedFoods} foods={foods}/>
+            <FoodList foods={foods} selectedFoods={this.state.selectedFoods}/>
           </div>
           <div>
-            <NutrientTable recommendations={recommendations} total={this.state.total}/>
+            <NutrientTable foods={foods} selectedFoods={this.state.selectedFoods}/>
           </div>
         </div>
     );
