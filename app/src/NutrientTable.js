@@ -14,6 +14,10 @@ const calculateTotal = (recommendations, foods, selectedFoods) => {
   });
 };
 
+const formatTotal = (total, recommendation) => {
+  return total.toFixed(recommendation <= 20 && total < recommendation ? 1 : 0);
+};
+
 const NutrientTable = ({foods, selectedFoods}) => {
 
   let total = calculateTotal(recommendations, foods, selectedFoods);
@@ -44,7 +48,7 @@ const NutrientTable = ({foods, selectedFoods}) => {
                   ></div>
                 </div>
                 <div className="total-amount">
-                  {total[index].toFixed(total[index] < 10 ? 1 : 0)}
+                  {formatTotal(total[index], recommendation.male)}
                 </div>
               </td>
               <td>

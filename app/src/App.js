@@ -4,13 +4,16 @@ import React, {Component} from 'react';
 // import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
 import * as firestore from './firestore';
-import meals from './data/meals';
 import FoodInput from './FoodInput';
 import FoodList from './FoodList';
 import NutrientTable from './NutrientTable';
 
 let foods = {};
 let foodOptions = [];
+
+const getFoods = () => {
+  return firestore.getFoods();
+};
 
 class App extends Component {
   constructor(props) {
@@ -24,8 +27,9 @@ class App extends Component {
   }
 
   componentDidMount() {
-    firestore.getFoods().then(foodsFromFirestore => {
-      foods = foodsFromFirestore;
+    Promise.all([firestore.getFoods(), firestore.getMeals()]).then((values) => {
+      foods = values[0];
+      let meals = values[1];
 
       foodOptions = Object.keys(foods).map(foodId => ({id: foodId, label: foods[foodId].name}));
 
@@ -36,6 +40,7 @@ class App extends Component {
         initialized: true,
       });
     });
+
   }
 
   selectFood(newFoodId, amount) {

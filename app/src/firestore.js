@@ -2,6 +2,7 @@ import firebase from 'firebase';
 import config from './config';
 
 const COLLECTION_FOODS = 'foods';
+const COLLECTION_MEALS = 'meals';
 
 firebase.initializeApp(config.firebase);
 
@@ -24,6 +25,23 @@ export const getFoods = () => {
       });
 
       resolve(foods);
+    })
+  });
+};
+
+/**
+ * @returns {Promise<any>}
+ */
+export const getMeals = () => {
+  return new Promise((resolve, reject) => {
+    db.collection(COLLECTION_MEALS).get().then(collection => {
+      let meals = [];
+      collection.forEach(doc => {
+        let meal = doc.data();
+        meals.push(meal.foods);
+      });
+
+      resolve(meals);
     })
   });
 };
