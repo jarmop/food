@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 // import 'react-bootstrap-typeahead/css/Typeahead.css';
 // import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
+// import meals from './data/meals';
 import * as firestore from './firestore';
 import FoodInput from './FoodInput';
 import FoodList from './FoodList';
@@ -10,6 +11,8 @@ import NutrientTable from './NutrientTable';
 
 let foods = {};
 let foodOptions = [];
+// let mealId = 'dwHwMXq8iSrGgsf8kFbi';
+let mealId = (new Date()).toDateString();
 
 const getFoods = () => {
   return firestore.getFoods();
@@ -27,16 +30,21 @@ class App extends Component {
   }
 
   componentDidMount() {
-    Promise.all([firestore.getFoods(), firestore.getMeals()]).then((values) => {
+    Promise.all([firestore.getFoods(), firestore.getMeals(), firestore.getMeal(mealId)]).then((values) => {
       foods = values[0];
-      let meals = values[1];
+      // let meals = values[1];
+      let meal = values[2];
+      if (!meal) {
+        meal = [];
+      }
 
       foodOptions = Object.keys(foods).map(foodId => ({id: foodId, label: foods[foodId].name}));
 
-      // let selectedFoods = meals[8];
-      let selectedFoods = meals[meals.length - 1];
+      // let selectedFoods = meals[10];
+      // let selectedFoods = meals[meals.length - 1];
       this.setState({
-        selectedFoods: selectedFoods,
+        // selectedFoods: selectedFoods,
+        selectedFoods: meal,
         initialized: true,
       });
     });
@@ -45,20 +53,31 @@ class App extends Component {
 
   selectFood(newFoodId, amount) {
     let selectedFoods = this.state.selectedFoods.slice();
-    if (selectedFoods.reduce((hasNewFood, food) => newFoodId === food.id, false)) {
-      return;
-    }
 
-    selectedFoods.push({
-      id: newFoodId,
-      amount: amount,
+    let foodAlreadySelected = false;
+    selectedFoods = selectedFoods.map(food => {
+      if (newFoodId === food.id) {
+        foodAlreadySelected = true;
+        return {
+          id: food.id,
+          amount: food.amount + amount,
+        }
+      }
+      return food;
     });
+
+    if (!foodAlreadySelected) {
+      selectedFoods.push({
+        id: newFoodId,
+        amount: amount,
+      });
+    }
 
     this.setState({
       selectedFoods: selectedFoods,
     });
 
-    console.log(JSON.stringify(selectedFoods));
+    firestore.saveMeal(selectedFoods, mealId);
   }
 
   render() {

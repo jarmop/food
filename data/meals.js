@@ -352,16 +352,6 @@ const meals = [
     {'id': 11212, 'amount': 10},
     {'id': 11152, 'amount': 40}
   ],
-  // [
-  //   {'id': 28955, 'amount': 100},
-  //   {'id': 1370, 'amount': 100},
-  //   {'id': 30348, 'amount': 100},
-  //   {'id': 30357, 'amount': 100},
-  //   {'id': 30361, 'amount': 100},
-  //   {'id': 153, 'amount': 30},
-  //   {'id': 33569, 'amount': 10},
-  //   {"id":834,"amount":100},
-  // ]
 ];
 
 export default meals;

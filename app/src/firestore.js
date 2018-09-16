@@ -45,3 +45,26 @@ export const getMeals = () => {
     })
   });
 };
+
+/**
+ * @param mealId
+ * @returns {Promise<any>}
+ */
+export const getMeal = (mealId) => {
+  let meal = null;
+  return new Promise((resolve, reject) => {
+    db.collection(COLLECTION_MEALS).doc(mealId).get().then(doc => {
+      if (doc.exists) {
+        meal = doc.data().foods;
+      }
+
+      resolve(meal);
+    })
+  });
+};
+
+export const saveMeal = (meal, mealId) => {
+  db.collection(COLLECTION_MEALS).doc(mealId).set({
+    foods: meal
+  });
+};
