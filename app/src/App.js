@@ -24,8 +24,8 @@ class App extends Component {
 
     this.state = {
       initialized: false,
-      selectedFood: null,
       selectedFoods: [],
+      mealFoods: [],
     };
 
     this.addFood = this.addFood.bind(this);
@@ -44,7 +44,7 @@ class App extends Component {
       foodOptions = Object.keys(foods).map(foodId => ({id: foodId, label: foods[foodId].name}));
 
       this.setState({
-        selectedFoods: meal,
+        mealFoods: meal,
         initialized: true,
       });
     });
@@ -52,12 +52,12 @@ class App extends Component {
   }
 
   addFood(newFoodId, amount) {
-    let selectedFoods = this.state.selectedFoods.slice();
+    let mealFoods = this.state.mealFoods.slice();
 
-    let foodAlreadySelected = false;
-    selectedFoods = selectedFoods.map(food => {
+    let foodAlreadyAdded = false;
+    mealFoods = mealFoods.map(food => {
       if (newFoodId === food.id) {
-        foodAlreadySelected = true;
+        foodAlreadyAdded = true;
         return {
           id: food.id,
           amount: food.amount + amount,
@@ -66,38 +66,44 @@ class App extends Component {
       return food;
     });
 
-    if (!foodAlreadySelected) {
-      selectedFoods.push({
+    if (!foodAlreadyAdded) {
+      mealFoods.push({
         id: newFoodId,
         amount: amount,
       });
     }
 
     this.setState({
-      selectedFoods: selectedFoods,
+      mealFoods: mealFoods,
     });
 
-    firestore.saveMeal(selectedFoods, mealId);
+    firestore.saveMeal(mealFoods, mealId);
   }
 
   deleteFood(foodId) {
-    let selectedFoods = this.state.selectedFoods.filter(food => foodId !== food.id);
+    let mealFoods = this.state.mealFoods.filter(food => foodId !== food.id);
 
     this.setState({
-      selectedFoods: selectedFoods,
+      mealFoods: mealFoods,
     });
 
-    firestore.saveMeal(selectedFoods, mealId);
+    firestore.saveMeal(mealFoods, mealId);
   }
 
-  selectFood(foodId) {
+  selectFood(selectedFoodId) {
+    let selectedFoods = this.state.selectedFoods.slice();
+    if (selectedFoods.includes(selectedFoodId)) {
+      selectedFoods = selectedFoods.filter(foodId => foodId !== selectedFoodId);
+    } else {
+      selectedFoods.push(selectedFoodId);
+    }
     this.setState({
-      selectedFood: foodId,
+      selectedFoods: selectedFoods,
     });
   }
 
   render() {
-    // console.log(this.state.selectedFoods);
+    // console.log(this.state.mealFoods);
     if (!this.state.initialized) {
       return 'not ready';
     }
@@ -108,6 +114,7 @@ class App extends Component {
             <FoodInput foodOptions={foodOptions} onAdd={this.addFood}/>
             <FoodList
                 foods={foods}
+                mealFoods={this.state.mealFoods}
                 selectedFoods={this.state.selectedFoods}
                 onDelete={foodId => this.deleteFood(foodId)}
                 onSelect={foodId => this.selectFood(foodId)}
@@ -116,8 +123,8 @@ class App extends Component {
           <div>
             <NutrientTable
                 foods={foods}
-                mealFoods={this.state.selectedFoods}
-                selectedFood={this.state.selectedFood}
+                mealFoods={this.state.mealFoods}
+                selectedFoods={this.state.selectedFoods}
             />
           </div>
         </div>

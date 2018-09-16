@@ -8,7 +8,7 @@
     cursor: pointer;
 }
 
-.food:hover {
+.food.food--selected {
     background-color: lightgray;
 }
 

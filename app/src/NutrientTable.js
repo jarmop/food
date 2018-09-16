@@ -19,9 +19,9 @@ const formatTotal = (total, recommendation) => {
   return total.toFixed(recommendation <= 20 && total < recommendation ? 1 : 0);
 };
 
-const NutrientTable = ({foods, mealFoods, selectedFood}) => {
-  let selectedFoodPart = selectedFood ? calculateTotal(recommendations, foods, mealFoods.filter(food => selectedFood === food.id)) : null;
-  let nonSelectedFoodPart = calculateTotal(recommendations, foods, mealFoods.filter(food => selectedFood !== food.id));
+const NutrientTable = ({foods, mealFoods, selectedFoods}) => {
+  let selectedFoodPart = selectedFoods.length > 0 ? calculateTotal(recommendations, foods, mealFoods.filter(food => selectedFoods.includes(food.id))) : null;
+  let nonSelectedFoodPart = calculateTotal(recommendations, foods, mealFoods.filter(food => !selectedFoods.includes(food.id)));
   let total = calculateTotal(recommendations, foods, mealFoods);
 
   return (

@@ -1,15 +1,14 @@
 import React from 'react';
 import './FoodList.css';
 
-const FoodList = ({foods, selectedFoods, onDelete, onSelect}) => {
+const FoodList = ({foods, mealFoods, selectedFoods, onDelete, onSelect}) => {
   return (
       <div className="food-list">
-        {selectedFoods.map((food) =>
+        {mealFoods.map((food) =>
             <div
-                className="food"
+                className={'food' + (selectedFoods.includes(food.id) ? ' food--selected' : '')}
                 key={food.id}
-                onMouseEnter={() => onSelect(food.id)}
-                onMouseLeave={() => onSelect(null)}
+                onClick={() => onSelect(food.id)}
             >
               {foods[food.id].name}, {food.amount} g
               <span
