@@ -43,7 +43,7 @@ const NutrientTable = ({foods, mealFoods, selectedFoods}) => {
                 <div className="amount">
                   <FoodBar max={recommendation.male} part1={selectedFoodPart ? nonSelectedFoodPart[index] : total[index]} part2={selectedFoodPart ? selectedFoodPart[index]: 0}/>
                   <span className="total-amount">
-                    {formatTotal(total[index], recommendation.male)}
+                    {formatTotal(total[index] - (selectedFoodPart ? selectedFoodPart[index] : 0), recommendation.male)}
                   </span>
                 </div>
               </td>

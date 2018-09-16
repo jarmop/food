@@ -30,6 +30,7 @@ class FoodInput extends React.Component {
 
   submit() {
     this.props.onAdd(this.state.foodId, this.state.amount);
+    this.typeahead.getInstance().clear();
   }
 
   render() {
@@ -41,6 +42,7 @@ class FoodInput extends React.Component {
               options={foodOptions}
               onChange={selected => this.setFood(parseInt(selected.pop().id))}
               placeholder="Valitse ruoka"
+              ref={(typeahead) => this.typeahead = typeahead}
           />
           <div>
             <input
