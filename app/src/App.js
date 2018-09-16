@@ -30,6 +30,7 @@ class App extends Component {
 
     this.addFood = this.addFood.bind(this);
     this.deleteFood = this.deleteFood.bind(this);
+    this.toggleAll = this.toggleAll.bind(this);
   }
 
   componentDidMount() {
@@ -80,8 +81,8 @@ class App extends Component {
     firestore.saveMeal(mealFoods, mealId);
   }
 
-  deleteFood(foodId) {
-    let mealFoods = this.state.mealFoods.filter(food => foodId !== food.id);
+  deleteFood(foodIds) {
+    let mealFoods = this.state.mealFoods.filter(food => !foodIds.includes(food.id));
 
     this.setState({
       mealFoods: mealFoods,
@@ -102,8 +103,15 @@ class App extends Component {
     });
   }
 
+  toggleAll() {
+    this.setState({
+      selectedFoods: this.state.mealFoods.length === this.state.selectedFoods.length
+          ? []
+          : this.state.mealFoods.map(food => food.id),
+    });
+  }
+
   render() {
-    // console.log(this.state.mealFoods);
     if (!this.state.initialized) {
       return 'not ready';
     }
@@ -118,6 +126,7 @@ class App extends Component {
                 selectedFoods={this.state.selectedFoods}
                 onDelete={foodId => this.deleteFood(foodId)}
                 onSelect={foodId => this.selectFood(foodId)}
+                onToggleAll={this.toggleAll}
             />
           </div>
           <div>

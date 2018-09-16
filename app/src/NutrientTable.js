@@ -28,11 +28,11 @@ const NutrientTable = ({foods, mealFoods, selectedFoods}) => {
       <table>
         <thead>
         <tr>
-          <th>Name</th>
-          <th>Total</th>
-          <th>Recommendation</th>
-          <th>Max</th>
-          <th>Unit</th>
+          <th>Nimi</th>
+          <th>Kokonaismäärä</th>
+          <th>Suositus</th>
+          <th>Yläraja</th>
+          <th>Yksikkö</th>
         </tr>
         </thead>
         <tbody>

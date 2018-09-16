@@ -15,3 +15,8 @@
 .food:hover .food__delete {
     display: inline;
 }
+
+.food-list-actions {
+    display: flex;
+    justify-content: space-between;
+}
