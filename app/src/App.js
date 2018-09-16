@@ -24,9 +24,11 @@ class App extends Component {
 
     this.state = {
       initialized: false,
+      selectedFood: null,
+      selectedFoods: [],
     };
 
-    this.selectFood = this.selectFood.bind(this);
+    this.addFood = this.addFood.bind(this);
     this.deleteFood = this.deleteFood.bind(this);
   }
 
@@ -41,10 +43,7 @@ class App extends Component {
 
       foodOptions = Object.keys(foods).map(foodId => ({id: foodId, label: foods[foodId].name}));
 
-      // let selectedFoods = meals[10];
-      // let selectedFoods = meals[meals.length - 1];
       this.setState({
-        // selectedFoods: selectedFoods,
         selectedFoods: meal,
         initialized: true,
       });
@@ -52,7 +51,7 @@ class App extends Component {
 
   }
 
-  selectFood(newFoodId, amount) {
+  addFood(newFoodId, amount) {
     let selectedFoods = this.state.selectedFoods.slice();
 
     let foodAlreadySelected = false;
@@ -91,6 +90,12 @@ class App extends Component {
     firestore.saveMeal(selectedFoods, mealId);
   }
 
+  selectFood(foodId) {
+    this.setState({
+      selectedFood: foodId,
+    });
+  }
+
   render() {
     // console.log(this.state.selectedFoods);
     if (!this.state.initialized) {
@@ -100,15 +105,20 @@ class App extends Component {
     return (
         <div className="grid">
           <div>
-            <FoodInput foodOptions={foodOptions} onAdd={this.selectFood}/>
+            <FoodInput foodOptions={foodOptions} onAdd={this.addFood}/>
             <FoodList
                 foods={foods}
                 selectedFoods={this.state.selectedFoods}
                 onDelete={foodId => this.deleteFood(foodId)}
+                onSelect={foodId => this.selectFood(foodId)}
             />
           </div>
           <div>
-            <NutrientTable foods={foods} selectedFoods={this.state.selectedFoods}/>
+            <NutrientTable
+                foods={foods}
+                mealFoods={this.state.selectedFoods}
+                selectedFood={this.state.selectedFood}
+            />
           </div>
         </div>
     );

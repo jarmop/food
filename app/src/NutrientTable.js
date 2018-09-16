@@ -1,11 +1,12 @@
-import recommendations from './data/recommendations';
 import React from 'react';
+import recommendations from './data/recommendations';
+import './NutrientTable.css';
+import FoodBar from './FoodBar';
 
 const calculateTotal = (recommendations, foods, selectedFoods) => {
   return recommendations.map(recommendation => {
     return selectedFoods.reduce(
         (value, food) => {
-          // console.log(food);
           return value + food.amount / 100 *
               foods[food.id].nutrients[recommendation.id];
         },
@@ -18,9 +19,10 @@ const formatTotal = (total, recommendation) => {
   return total.toFixed(recommendation <= 20 && total < recommendation ? 1 : 0);
 };
 
-const NutrientTable = ({foods, selectedFoods}) => {
-
-  let total = calculateTotal(recommendations, foods, selectedFoods);
+const NutrientTable = ({foods, mealFoods, selectedFood}) => {
+  let selectedFoodPart = selectedFood ? calculateTotal(recommendations, foods, mealFoods.filter(food => selectedFood === food.id)) : null;
+  let nonSelectedFoodPart = calculateTotal(recommendations, foods, mealFoods.filter(food => selectedFood !== food.id));
+  let total = calculateTotal(recommendations, foods, mealFoods);
 
   return (
       <table>
@@ -38,17 +40,11 @@ const NutrientTable = ({foods, selectedFoods}) => {
             <tr key={index}>
               <td>{recommendation.name}</td>
               <td>
-                <div className="bar">
-                  <div
-                      className="bar__fill"
-                      style={{
-                        width: Math.min(total[index] /
-                            recommendation.male * 100, 100) + '%'
-                      }}
-                  ></div>
-                </div>
-                <div className="total-amount">
-                  {formatTotal(total[index], recommendation.male)}
+                <div className="amount">
+                  <FoodBar max={recommendation.male} part1={selectedFoodPart ? nonSelectedFoodPart[index] : total[index]} part2={selectedFoodPart ? selectedFoodPart[index]: 0}/>
+                  <span className="total-amount">
+                    {formatTotal(total[index], recommendation.male)}
+                  </span>
                 </div>
               </td>
               <td>

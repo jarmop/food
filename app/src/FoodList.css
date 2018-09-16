@@ -8,6 +8,10 @@
     cursor: pointer;
 }
 
+.food:hover {
+    background-color: lightgray;
+}
+
 .food:hover .food__delete {
     display: inline;
 }

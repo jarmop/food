@@ -1,0 +1,16 @@
+.bar {
+    display: flex;
+    border: 1px solid black;
+    height: 1rem;
+    width: 100px;
+}
+
+.bar__fill {
+    background-color: black;
+    height: 100%;
+    width: 0%;
+}
+
+.bar__fill--selected {
+    background-color: red;
+}
