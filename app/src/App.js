@@ -27,6 +27,7 @@ class App extends Component {
     };
 
     this.selectFood = this.selectFood.bind(this);
+    this.deleteFood = this.deleteFood.bind(this);
   }
 
   componentDidMount() {
@@ -80,6 +81,16 @@ class App extends Component {
     firestore.saveMeal(selectedFoods, mealId);
   }
 
+  deleteFood(foodId) {
+    let selectedFoods = this.state.selectedFoods.filter(food => foodId !== food.id);
+
+    this.setState({
+      selectedFoods: selectedFoods,
+    });
+
+    firestore.saveMeal(selectedFoods, mealId);
+  }
+
   render() {
     // console.log(this.state.selectedFoods);
     if (!this.state.initialized) {
@@ -90,7 +101,11 @@ class App extends Component {
         <div className="grid">
           <div>
             <FoodInput foodOptions={foodOptions} onAdd={this.selectFood}/>
-            <FoodList foods={foods} selectedFoods={this.state.selectedFoods}/>
+            <FoodList
+                foods={foods}
+                selectedFoods={this.state.selectedFoods}
+                onDelete={foodId => this.deleteFood(foodId)}
+            />
           </div>
           <div>
             <NutrientTable foods={foods} selectedFoods={this.state.selectedFoods}/>

@@ -1,0 +1,13 @@
+.food-list {
+    margin: 1rem;
+}
+
+.food__delete {
+    display: none;
+    margin-left: 1rem;
+    cursor: pointer;
+}
+
+.food:hover .food__delete {
+    display: inline;
+}
