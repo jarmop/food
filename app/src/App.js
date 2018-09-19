@@ -95,6 +95,7 @@ class App extends Component {
 
     this.setState({
       mealFoods: mealFoods,
+      selectedFoods: [],
     });
 
     firestore.saveMeal(mealFoods, this.getCurrentMealId());
@@ -123,8 +124,7 @@ class App extends Component {
   setMealByDate(date) {
     firestore.getMeal(this.getMealIdByDate(date)).then(meal => {
       if (!meal) {
-        console.log('meal not found');
-        return;
+        meal = [];
       }
       this.setState({
         mealFoods: meal,

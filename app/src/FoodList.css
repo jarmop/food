@@ -1,14 +1,16 @@
 .food-list {
     margin: 1rem;
 }
-
+.food {
+    cursor: pointer;
+}
 .food__delete {
     display: none;
     margin-left: 1rem;
     cursor: pointer;
 }
 
-.food.food--selected {
+.food--selected {
     background-color: lightgray;
 }
 
