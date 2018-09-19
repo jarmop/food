@@ -8,11 +8,10 @@ import * as firestore from './firestore';
 import FoodInput from './FoodInput';
 import FoodList from './FoodList';
 import NutrientTable from './NutrientTable';
+import DatePicker from './DatePicker';
 
 let foods = {};
 let foodOptions = [];
-// let mealId = 'dwHwMXq8iSrGgsf8kFbi';
-let mealId = (new Date()).toDateString();
 
 const getFoods = () => {
   return firestore.getFoods();
@@ -26,15 +25,25 @@ class App extends Component {
       initialized: false,
       selectedFoods: [],
       mealFoods: [],
+      date: new Date(),
     };
 
     this.addFood = this.addFood.bind(this);
     this.deleteFood = this.deleteFood.bind(this);
     this.toggleAll = this.toggleAll.bind(this);
+    this.setMealByDate = this.setMealByDate.bind(this);
+  }
+
+  getMealIdByDate(date) {
+    return date.toDateString();
+  }
+
+  getCurrentMealId() {
+    return this.getMealIdByDate(this.state.date);
   }
 
   componentDidMount() {
-    Promise.all([firestore.getFoods(), firestore.getMeals(), firestore.getMeal(mealId)]).then((values) => {
+    Promise.all([firestore.getFoods(), firestore.getMeals(), firestore.getMeal(this.getCurrentMealId())]).then((values) => {
       foods = values[0];
       // let meals = values[1];
       let meal = values[2];
@@ -78,7 +87,7 @@ class App extends Component {
       mealFoods: mealFoods,
     });
 
-    firestore.saveMeal(mealFoods, mealId);
+    firestore.saveMeal(mealFoods, this.getCurrentMealId());
   }
 
   deleteFood(foodIds) {
@@ -88,7 +97,7 @@ class App extends Component {
       mealFoods: mealFoods,
     });
 
-    firestore.saveMeal(mealFoods, mealId);
+    firestore.saveMeal(mealFoods, this.getCurrentMealId());
   }
 
   selectFood(selectedFoodId) {
@@ -111,6 +120,19 @@ class App extends Component {
     });
   }
 
+  setMealByDate(date) {
+    firestore.getMeal(this.getMealIdByDate(date)).then(meal => {
+      if (!meal) {
+        console.log('meal not found');
+        return;
+      }
+      this.setState({
+        mealFoods: meal,
+        date: date,
+      });
+    });
+  }
+
   render() {
     if (!this.state.initialized) {
       return 'not ready';
@@ -119,6 +141,10 @@ class App extends Component {
     return (
         <div className="grid">
           <div>
+            <DatePicker
+                selectedDate={this.state.date}
+                onDateChange={this.setMealByDate}
+            />
             <FoodInput foodOptions={foodOptions} onAdd={this.addFood}/>
             <FoodList
                 foods={foods}
