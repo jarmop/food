@@ -2,6 +2,7 @@
     display: grid;
     grid-template-columns: auto 6rem 4rem;
     grid-gap: 1rem;
+    margin: 1rem;
 }
 
 .input-amount {

@@ -16,7 +16,9 @@ const calculateTotal = (recommendations, foods, selectedFoods) => {
 };
 
 const formatTotal = (total, recommendation) => {
-  return total.toFixed(recommendation <= 20 && total < recommendation ? 1 : 0);
+  // return total.toFixed(total <= 10 ? 2 : (total < 100 ? 1 : 0));
+  // return total.toFixed(recommendation < 2 ? 2 : (recommendation < 10 ? 1 : 0));
+  return total.toFixed(recommendation < 2 ? 1 : 0);
 };
 
 const NutrientTable = ({foods, mealFoods, selectedFoods}) => {

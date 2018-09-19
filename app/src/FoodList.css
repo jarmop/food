@@ -1,24 +1,23 @@
 .food-list {
     margin: 1rem;
+    font-size: 0.9rem;
+    line-height: 1.2em;
 }
 .food {
     cursor: pointer;
+    border: 1px solid white;
 }
 .food__delete {
     display: none;
     margin-left: 1rem;
     cursor: pointer;
 }
-
 .food--selected {
-    background-color: lightgray;
+    background-color: lightgrey;
+    border-color: lightgrey;
 }
-
-.food:hover .food__delete {
-    display: inline;
-}
-
 .food-list-actions {
     display: flex;
     justify-content: space-between;
+    margin: 1rem;
 }

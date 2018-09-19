@@ -48,7 +48,7 @@ class FoodInput extends React.Component {
             <input
                 className="input-amount form-control"
                 type="number"
-                value={this.state.amount}
+                defaultValue={100}
                 onChange={event => this.setAmount(parseInt(event.target.value))}
             /> g
           </div>

@@ -1,5 +1,6 @@
 .grid {
     display: grid;
-    grid-template-columns: 37rem auto;
+    grid-template-columns: 34rem auto;
     grid-gap: 1rem;
+    line-height: 1.2em;
 }
