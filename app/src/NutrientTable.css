@@ -4,5 +4,13 @@
 
 .nutrient-table__column--no-padding {
     padding: 0;
+}
+
+.nutrient-table__column--received {
+    width: 50px;
     text-align: right;
+}
+
+.nutrient-table__column--recommended {
+    width: 70px;
 }

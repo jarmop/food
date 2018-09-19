@@ -89,15 +89,15 @@ class NutrientTable extends React.Component {
             {dataArray.map((data, index) =>
                 <tr key={index}>
                   <td className="nutrient-table__column">{data.name}</td>
-                  <td className="nutrient-table__column">
+                  <td className="nutrient-table__column nutrient-table__column--no-padding">
                     <div>
                       <FoodBar max={data.recommendation} part1={data.part1} part2={data.part2}/>
                     </div>
                   </td>
-                  <td className="nutrient-table__column nutrient-table__column--no-padding">
+                  <td className="nutrient-table__column nutrient-table__column--received nutrient-table__column--no-padding">
                     {formatValue(data.total)}
                   </td>
-                  <td className="nutrient-table__column">
+                  <td className="nutrient-table__column nutrient-table__column--recommended nutrient-table__column--no-padding">
                     &nbsp;/&nbsp;{formatValue(data.recommendation)}
                   </td>
                   <td className="nutrient-table__column">
