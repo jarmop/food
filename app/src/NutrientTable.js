@@ -6,8 +6,8 @@ import FoodBar from './FoodBar';
 const calculateTotal = (recommendations, foods, selectedFoods) => {
   return recommendations.map(recommendation => {
     return selectedFoods.reduce(
-        (value, food) => {
-          return value + food.amount / 100 *
+        (totalNutrientAmount, food) => {
+          return totalNutrientAmount + food.amount / 100 *
               foods[food.id].nutrients[recommendation.id];
         },
         0
@@ -15,58 +15,104 @@ const calculateTotal = (recommendations, foods, selectedFoods) => {
   });
 };
 
-const formatTotal = (total, recommendation) => {
-  // return total.toFixed(total <= 10 ? 2 : (total < 100 ? 1 : 0));
-  // return total.toFixed(recommendation < 2 ? 2 : (recommendation < 10 ? 1 : 0));
-  return total.toFixed(recommendation < 2 ? 1 : 0);
+const formatValue = (value) => {
+  return value.toFixed(value < 2 ? 1 : 0);
 };
 
-const NutrientTable = ({foods, mealFoods, selectedFoods}) => {
-  let selectedFoodPart = selectedFoods.length > 0 ? calculateTotal(recommendations, foods, mealFoods.filter(food => selectedFoods.includes(food.id))) : null;
-  let nonSelectedFoodPart = calculateTotal(recommendations, foods, mealFoods.filter(food => !selectedFoods.includes(food.id)));
-  let total = calculateTotal(recommendations, foods, mealFoods);
+const getRecommendationToEnergy = (recommendedNutrientDensity, energy) => {
+  return energy / 1000 * recommendedNutrientDensity;
+};
 
-  return (
-      <table className="nutrient-table">
-        <thead>
-        <tr>
-          <th className="nutrient-table__column">Nimi</th>
-          <th className="nutrient-table__column" colSpan="3">Saanti / suositus</th>
-          {/*<th>Suositus</th>*/}
-          <th className="nutrient-table__column">Yläraja</th>
-          <th className="nutrient-table__column">Yksikkö</th>
-        </tr>
-        </thead>
-        <tbody>
-        {recommendations.map((recommendation, index) =>
-            <tr key={index}>
-              <td className="nutrient-table__column">{recommendation.name}</td>
-              <td className="nutrient-table__column">
-                <div>
-                  <FoodBar max={recommendation.male} part1={selectedFoodPart ? nonSelectedFoodPart[index] : total[index]} part2={selectedFoodPart ? selectedFoodPart[index]: 0}/>
-                </div>
-              </td>
-              <td className="nutrient-table__column nutrient-table__column--no-padding">
-                {formatTotal(
-                    total[index] -
-                    (selectedFoodPart ? selectedFoodPart[index] : 0),
-                    recommendation.male
-                )}
-              </td>
-              <td className="nutrient-table__column">
-                &nbsp;/&nbsp;{recommendation.male}
-              </td>
-              <td className="nutrient-table__column">
-                {recommendation.max}
-              </td>
-              <td className="nutrient-table__column">
-                {recommendation.unit}
-              </td>
+class NutrientTable extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      showRelationToEnergy: true,
+    };
+
+    this.toggleMeasuringType = this.toggleMeasuringType.bind(this);
+  }
+
+  toggleMeasuringType() {
+    this.setState({
+      showRelationToEnergy: !this.state.showRelationToEnergy,
+    });
+  }
+
+  render() {
+    let {foods, mealFoods, selectedFoods} = this.props;
+
+    let selectedFoodPart = selectedFoods.length > 0 ? calculateTotal(recommendations, foods, mealFoods.filter(food => selectedFoods.includes(food.id))) : null;
+    let nonSelectedFoodPart = calculateTotal(recommendations, foods, mealFoods.filter(food => !selectedFoods.includes(food.id)));
+    let total = calculateTotal(recommendations, foods, mealFoods);
+    let totalEnergy = nonSelectedFoodPart[0];
+
+    let dataArray = [];
+    recommendations.map((recommendation, index) => {
+      dataArray.push({
+        name: recommendation.name,
+        recommendation: this.state.showRelationToEnergy && recommendation.nutrientDensity ? getRecommendationToEnergy(recommendation.nutrientDensity, totalEnergy) : recommendation.male,
+        total: total[index] - (selectedFoodPart ? selectedFoodPart[index] : 0),
+        max: recommendation.max,
+        unit: recommendation.unit,
+        part1: selectedFoodPart ? nonSelectedFoodPart[index] : total[index],
+        part2: selectedFoodPart ? selectedFoodPart[index]: 0,
+      });
+    });
+
+    return (
+        <div>
+          {/*<div>*/}
+            {/*<input type="radio" id="energy" name="measure" value="1" checked={this.state.showRelationToEnergy} onChange={this.toggleMeasuringType}/>*/}
+            {/*<label htmlFor="energy">Vertaa saatuun energiamäärään</label>*/}
+          {/*</div>*/}
+          {/*<div>*/}
+            {/*<input type="radio" id="average" name="measure" value="2" checked={!this.state.showRelationToEnergy} onChange={this.toggleMeasuringType}/>*/}
+            {/*<label htmlFor="average">Vertaa suositeltuun energiamäärään</label>*/}
+          {/*</div>*/}
+          <div>
+            <input type="checkbox" id="energy" checked={this.state.showRelationToEnergy} onChange={this.toggleMeasuringType}/>
+            <label htmlFor="energy">&nbsp;Vertaa saatuun energiamäärään</label>
+          </div>
+          <table className="nutrient-table">
+            <thead>
+            <tr>
+              <th className="nutrient-table__column">Nimi</th>
+              <th className="nutrient-table__column" colSpan="3">Saanti / suositus</th>
+              {/*<th>Suositus</th>*/}
+              <th className="nutrient-table__column">Yläraja</th>
+              <th className="nutrient-table__column">Yksikkö</th>
             </tr>
-        )}
-        </tbody>
-      </table>
-  );
+            </thead>
+            <tbody>
+            {dataArray.map((data, index) =>
+                <tr key={index}>
+                  <td className="nutrient-table__column">{data.name}</td>
+                  <td className="nutrient-table__column">
+                    <div>
+                      <FoodBar max={data.recommendation} part1={data.part1} part2={data.part2}/>
+                    </div>
+                  </td>
+                  <td className="nutrient-table__column nutrient-table__column--no-padding">
+                    {formatValue(data.total)}
+                  </td>
+                  <td className="nutrient-table__column">
+                    &nbsp;/&nbsp;{formatValue(data.recommendation)}
+                  </td>
+                  <td className="nutrient-table__column">
+                    {data.max}
+                  </td>
+                  <td className="nutrient-table__column">
+                    {data.unit}
+                  </td>
+                </tr>
+            )}
+            </tbody>
+          </table>
+        </div>
+    );
+  }
 };
 
 export default NutrientTable;
