@@ -20,7 +20,7 @@ const mapNutrientIdToFineliDataIndex = {
   3: 53,
   4: 47,
   5: 46,
-  6: 44,
+  6: 43,
   7: 45,
   8: 42,
   9: 48,

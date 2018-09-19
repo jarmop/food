@@ -1,8 +1,8 @@
-.amount {
-    display: grid;
-    grid-template-columns: repeat(2, auto);
+.nutrient-table__column {
+    padding-right: 1rem;
 }
 
-.total-amount {
-    margin-left: 10px;
+.nutrient-table__column--no-padding {
+    padding: 0;
+    text-align: right;
 }

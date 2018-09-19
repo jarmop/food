@@ -25,35 +25,39 @@ const NutrientTable = ({foods, mealFoods, selectedFoods}) => {
   let total = calculateTotal(recommendations, foods, mealFoods);
 
   return (
-      <table>
+      <table className="nutrient-table">
         <thead>
         <tr>
-          <th>Nimi</th>
-          <th>Kokonaismäärä</th>
-          <th>Suositus</th>
-          <th>Yläraja</th>
-          <th>Yksikkö</th>
+          <th className="nutrient-table__column">Nimi</th>
+          <th className="nutrient-table__column" colSpan="3">Saanti / suositus</th>
+          {/*<th>Suositus</th>*/}
+          <th className="nutrient-table__column">Yläraja</th>
+          <th className="nutrient-table__column">Yksikkö</th>
         </tr>
         </thead>
         <tbody>
         {recommendations.map((recommendation, index) =>
             <tr key={index}>
-              <td>{recommendation.name}</td>
-              <td>
-                <div className="amount">
+              <td className="nutrient-table__column">{recommendation.name}</td>
+              <td className="nutrient-table__column">
+                <div>
                   <FoodBar max={recommendation.male} part1={selectedFoodPart ? nonSelectedFoodPart[index] : total[index]} part2={selectedFoodPart ? selectedFoodPart[index]: 0}/>
-                  <span className="total-amount">
-                    {formatTotal(total[index] - (selectedFoodPart ? selectedFoodPart[index] : 0), recommendation.male)}
-                  </span>
                 </div>
               </td>
-              <td>
-                {recommendation.male}
+              <td className="nutrient-table__column nutrient-table__column--no-padding">
+                {formatTotal(
+                    total[index] -
+                    (selectedFoodPart ? selectedFoodPart[index] : 0),
+                    recommendation.male
+                )}
               </td>
-              <td>
+              <td className="nutrient-table__column">
+                &nbsp;/&nbsp;{recommendation.male}
+              </td>
+              <td className="nutrient-table__column">
                 {recommendation.max}
               </td>
-              <td>
+              <td className="nutrient-table__column">
                 {recommendation.unit}
               </td>
             </tr>
