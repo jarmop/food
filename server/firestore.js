@@ -27,6 +27,23 @@ exports.setFoods = (foods) => {
 };
 
 /**
+ * @returns {Promise<any>}
+ */
+exports.getFoods = () => {
+  return new Promise((resolve, reject) => {
+    db.collection(COLLECTION_FOODS).get().then(collection => {
+      let foods = {};
+      collection.forEach(doc => {
+        let food = doc.data();
+        foods[food.id] = food;
+      });
+
+      resolve(foods);
+    })
+  });
+};
+
+/**
  * @param food
  * @returns {Promise<void>}
  */
