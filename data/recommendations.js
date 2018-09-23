@@ -329,10 +329,10 @@ exports.carbs = [
   {
     'id': 37,
     'name': 'Kuitu',
-    'male': null,
-    'female': null,
+    'male': 30,
+    'female': 30,
     'max': null,
-    'nutrientDensity': null,
+    'nutrientDensity': 12.6,
     'unit': 'g'
   },
   {
