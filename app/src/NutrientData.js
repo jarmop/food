@@ -96,37 +96,87 @@ class NutrientData extends React.Component {
                    onChange={this.toggleMeasuringType}/>
             <label htmlFor="energy">&nbsp;Vertaa saatuun energiamäärään</label>
           </div>
-          <div className="nutrient-table-header">Perusravintoaineet</div>
-          <NutrientTable dataArray={dataArrayBasic}/>
-          <div className="nutrient-table-header">Mineraalit</div>
-          <NutrientTable dataArray={dataArrayMinerals}/>
-          <div className="nutrient-table-header">Vitamiinit</div>
-          <NutrientTable dataArray={dataArrayVitamins}/>
+          <table className="nutrient-table">
+            <NutrientTableHead/>
+            <NutrientTableSection dataArray={dataArrayBasic} isToggleEnabled={false}/>
+            <NutrientTableSection dataArray={dataArrayMinerals} name="Mineraalit"/>
+            <NutrientTableSection dataArray={dataArrayVitamins} name="Vitamiinit"/>
+          </table>
         </div>
     );
   }
 }
 
-const NutrientTable = ({dataArray}) => {
+const NutrientTableHead = ({dataArray}) => {
   return (
-      <table className="nutrient-table">
-        <thead>
-        <tr>
-          <th className="nutrient-table__column">Nimi</th>
-          <th className="nutrient-table__column" colSpan="3">Saanti / suositus
-          </th>
-          <th className="nutrient-table__column">Yläraja</th>
-          <th className="nutrient-table__column">Yksikkö</th>
-        </tr>
-        </thead>
+      <thead>
+      <tr>
+        <th className="nutrient-table__column nutrient-table__column--toggle"></th>
+        <th className="nutrient-table__column nutrient-table__column--name">Nimi</th>
+        <th className="nutrient-table__column nutrient-table__column--amount" colSpan="3">Saanti / suositus
+        </th>
+        <th className="nutrient-table__column nutrient-table__column--max">Yläraja</th>
+        <th className="nutrient-table__column nutrient-table__column--unit">Yksikkö</th>
+      </tr>
+      </thead>
+  );
+};
+
+class NutrientTableSection extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isVisible: 'isVisible' in props ? props.isVisible : true,
+      isToggleEnabled: 'isToggleEnabled' in props ? props.isToggleEnabled : true,
+    };
+
+    this.show = this.show.bind(this);
+    this.hide = this.hide.bind(this);
+  }
+
+  show() {
+    this.setState({
+      isVisible: true,
+    });
+  }
+
+  hide() {
+    this.setState({
+      isVisible: false,
+    });
+  }
+
+  render() {
+    let {dataArray, name} = this.props;
+
+    return (
         <tbody className="nutrient-table__section">
-        {dataArray.map((data, index) =>
+        {!this.state.isVisible &&
+          <tr>
+            <td valign="top">
+              <button className="nutrient-table__section-toggle" onClick={this.show}>+</button>
+            </td>
+            <td colSpan="6">{name}</td>
+          </tr>
+        }
+        {this.state.isVisible && dataArray.map((data, index) =>
             <tr key={index}>
+              {index === 0 &&
+              <td rowSpan={dataArray.length} valign="top">
+                {this.state.isToggleEnabled &&
+                  <button className="nutrient-table__section-toggle" onClick={this.hide}>-</button>
+                }
+              </td>
+              }
               <td className="nutrient-table__column nutrient-table__column--name">{data.name}</td>
               <td className="nutrient-table__column nutrient-table__column--no-padding">
                 <div>
-                  <FoodBar max={data.recommendation} part1={data.part1}
-                           part2={data.part2}/>
+                  <FoodBar
+                      max={data.recommendation}
+                      part1={data.part1}
+                      part2={data.part2}
+                  />
                 </div>
               </td>
               <td className="nutrient-table__column nutrient-table__column--received nutrient-table__column--no-padding">
@@ -144,8 +194,8 @@ const NutrientTable = ({dataArray}) => {
             </tr>
         )}
         </tbody>
-      </table>
-  );
-};
+    );
+  }
+}
 
 export default NutrientData;

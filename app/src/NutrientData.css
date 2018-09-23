@@ -5,15 +5,40 @@
 }
 
 .nutrient-table {
+    /*border-top: 1px solid black;*/
+}
+
+.nutrient-table__section {
     border-top: 1px solid black;
+}
+
+.nutrient-table__section-toggle {
+    cursor: pointer;
+    width: 26px;
 }
 
 .nutrient-table__column {
     padding-right: 1rem;
 }
 
+.nutrient-table__column--toggle {
+    width: 2rem;
+}
+
 .nutrient-table__column--name {
     width: 7rem;
+}
+
+.nutrient-table__column--amount {
+    width: 14rem;
+}
+
+.nutrient-table__column--max {
+    width: 4rem;
+}
+
+.nutrient-table__column--unit {
+    width: 4rem;
 }
 
 .nutrient-table__column--no-padding {
@@ -21,7 +46,6 @@
 }
 
 .nutrient-table__column--received {
-    width: 50px;
     text-align: right;
 }
 
