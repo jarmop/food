@@ -1,5 +1,19 @@
+.nutrient-table-header {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin: 0.5rem 0 0.5rem 0;
+}
+
+.nutrient-table {
+    border-top: 1px solid black;
+}
+
 .nutrient-table__column {
     padding-right: 1rem;
+}
+
+.nutrient-table__column--name {
+    width: 7rem;
 }
 
 .nutrient-table__column--no-padding {

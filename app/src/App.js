@@ -7,7 +7,7 @@ import './App.css';
 import * as firestore from './firestore';
 import FoodInput from './FoodInput';
 import FoodList from './FoodList';
-import NutrientTable from './NutrientTable';
+import NutrientData from './NutrientData';
 import DatePicker from './DatePicker';
 
 let foods = {};
@@ -156,7 +156,7 @@ class App extends Component {
             />
           </div>
           <div>
-            <NutrientTable
+            <NutrientData
                 foods={foods}
                 mealFoods={this.state.mealFoods}
                 selectedFoods={this.state.selectedFoods}

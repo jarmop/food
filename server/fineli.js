@@ -1,4 +1,5 @@
-const recommendations = require('../data/recommendations');
+const recommendationsData = require('../data/recommendations');
+let recommendations = recommendationsData.basic.concat(recommendationsData.minerals, recommendationsData.vitamins);
 
 const kcalToKjRatio = 4.184;
 const URL = 'https://fineli.fi/fineli/api/v1/foods/[FOOD_ID]';
