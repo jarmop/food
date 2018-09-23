@@ -1,11 +1,5 @@
-.nutrient-table-header {
-    font-size: 1.2rem;
-    font-weight: bold;
-    margin: 0.5rem 0 0.5rem 0;
-}
-
 .nutrient-table {
-    /*border-top: 1px solid black;*/
+    font-size: 0.8rem;
 }
 
 .nutrient-table__section {
@@ -17,16 +11,12 @@
     width: 26px;
 }
 
-.nutrient-table__column {
-    padding-right: 1rem;
-}
-
 .nutrient-table__column--toggle {
     width: 2rem;
 }
 
 .nutrient-table__column--name {
-    width: 7rem;
+    width: 12rem;
 }
 
 .nutrient-table__column--amount {

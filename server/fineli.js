@@ -1,5 +1,5 @@
 const recommendationsData = require('../data/recommendations');
-let recommendations = recommendationsData.basic.concat(recommendationsData.minerals, recommendationsData.vitamins);
+let recommendations = recommendationsData.basic.concat(recommendationsData.minerals, recommendationsData.vitamins, recommendationsData.fats, recommendationsData.carbs);
 
 const kcalToKjRatio = 4.184;
 const URL = 'https://fineli.fi/fineli/api/v1/foods/[FOOD_ID]';
@@ -25,6 +25,32 @@ const mapNutrientIdToFineliDataIndex = {
   21: 3,
   22: 2,
   23: 1,
+  24: 18,
+  25: 19,
+  26: 20,
+  27: 21,
+  28: 22,
+  29: 23,
+  30: 24,
+  31: 25,
+  32: 26,
+  33: 27,
+  34: 28,
+  35: 29,
+  36: 30,
+  37: 5,
+  38: 6,
+  39: 7,
+  40: 8,
+  41: 9,
+  42: 10,
+  43: 11,
+  44: 12,
+  45: 13,
+  46: 14,
+  47: 15,
+  48: 16,
+  49: 17,
 };
 
 const nutrientIdForEnergy = 20;

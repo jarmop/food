@@ -36,6 +36,7 @@ exports.basic = [
     'unit': 'g'
   },
 ];
+
 exports.vitamins = [
   {
     'id': 1,
@@ -128,6 +129,7 @@ exports.vitamins = [
     'unit': 'mg'
   },
 ];
+
 exports.minerals = [
   {
     'id': 11,
@@ -201,4 +203,244 @@ exports.minerals = [
     'nutrientDensity': 23,
     'unit': 'µg'
   }
+];
+
+exports.fats = [
+  {
+    'id': 24,
+    'name': 'Rasvahapot yhteensä',
+    'male': null,
+    'female': null,
+    'max': null,
+    'nutrientDensity': null,
+    'unit': 'g'
+  },
+  {
+    'id': 25,
+    'name': 'Monityydyttymättömät',
+    'male': null,
+    'female': null,
+    'max': null,
+    'nutrientDensity': null,
+    'unit': 'g'
+  },
+  {
+    'id': 26,
+    'name': 'Yksittäistyydyttymättömät cis',
+    'male': null,
+    'female': null,
+    'max': null,
+    'nutrientDensity': null,
+    'unit': 'g'
+  },
+  {
+    'id': 27,
+    'name': 'Tyydyttyneet',
+    'male': null,
+    'female': null,
+    'max': null,
+    'nutrientDensity': null,
+    'unit': 'g'
+  },
+  {
+    'id': 28,
+    'name': 'Trans',
+    'male': null,
+    'female': null,
+    'max': null,
+    'nutrientDensity': null,
+    'unit': 'g'
+  },
+  {
+    'id': 29,
+    'name': 'N-3',
+    'male': null,
+    'female': null,
+    'max': null,
+    'nutrientDensity': null,
+    'unit': 'g'
+  },
+  {
+    'id': 30,
+    'name': 'N-6',
+    'male': null,
+    'female': null,
+    'max': null,
+    'nutrientDensity': null,
+    'unit': 'g'
+  },
+  {
+    'id': 31,
+    'name': 'Linolihappo',
+    'male': null,
+    'female': null,
+    'max': null,
+    'nutrientDensity': null,
+    'unit': 'mg'
+  },
+  {
+    'id': 32,
+    'name': 'Alfalinoleenihappo',
+    'male': null,
+    'female': null,
+    'max': null,
+    'nutrientDensity': null,
+    'unit': 'mg'
+  },
+  {
+    'id': 33,
+    'name': 'EPA',
+    'male': null,
+    'female': null,
+    'max': null,
+    'nutrientDensity': null,
+    'unit': 'mg'
+  },
+  {
+    'id': 34,
+    'name': 'DHA',
+    'male': null,
+    'female': null,
+    'max': null,
+    'nutrientDensity': null,
+    'unit': 'mg'
+  },
+  {
+    'id': 35,
+    'name': 'Kolesteroli',
+    'male': null,
+    'female': null,
+    'max': null,
+    'nutrientDensity': null,
+    'unit': 'mg'
+  },
+  {
+    'id': 36,
+    'name': 'Steroli',
+    'male': null,
+    'female': null,
+    'max': null,
+    'nutrientDensity': null,
+    'unit': 'mg'
+  }
+];
+
+exports.carbs = [
+  {
+    'id': 37,
+    'name': 'Kuitu',
+    'male': null,
+    'female': null,
+    'max': null,
+    'nutrientDensity': null,
+    'unit': 'g'
+  },
+  {
+    'id': 38,
+    'name': 'Orgaaniset hapot',
+    'male': null,
+    'female': null,
+    'max': null,
+    'nutrientDensity': null,
+    'unit': 'g'
+  },
+  {
+    'id': 39,
+    'name': 'Sokerialkoholi',
+    'male': null,
+    'female': null,
+    'max': null,
+    'nutrientDensity': null,
+    'unit': 'g'
+  },
+  {
+    'id': 40,
+    'name': 'Tärkkelys',
+    'male': null,
+    'female': null,
+    'max': null,
+    'nutrientDensity': null,
+    'unit': 'g'
+  },
+  {
+    'id': 41,
+    'name': 'Sokerit',
+    'male': null,
+    'female': null,
+    'max': null,
+    'nutrientDensity': null,
+    'unit': 'g'
+  },
+  {
+    'id': 42,
+    'name': 'Fruktoosi',
+    'male': null,
+    'female': null,
+    'max': null,
+    'nutrientDensity': null,
+    'unit': 'g'
+  },
+  {
+    'id': 43,
+    'name': 'Galaktoosi',
+    'male': null,
+    'female': null,
+    'max': null,
+    'nutrientDensity': null,
+    'unit': 'g'
+  },
+  {
+    'id': 44,
+    'name': 'Glukoosi',
+    'male': null,
+    'female': null,
+    'max': null,
+    'nutrientDensity': null,
+    'unit': 'g'
+  },
+  {
+    'id': 45,
+    'name': 'Laktoosi',
+    'male': null,
+    'female': null,
+    'max': null,
+    'nutrientDensity': null,
+    'unit': 'g'
+  },
+  {
+    'id': 46,
+    'name': 'Maltoosi',
+    'male': null,
+    'female': null,
+    'max': null,
+    'nutrientDensity': null,
+    'unit': 'g'
+  },
+  {
+    'id': 47,
+    'name': 'Sakkaroosi',
+    'male': null,
+    'female': null,
+    'max': null,
+    'nutrientDensity': null,
+    'unit': 'g'
+  },
+  {
+    'id': 48,
+    'name': 'Polysakkaridi',
+    'male': null,
+    'female': null,
+    'max': null,
+    'nutrientDensity': null,
+    'unit': 'g'
+  },
+  {
+    'id': 49,
+    'name': 'Veteen liukenematon kuitu',
+    'male': null,
+    'female': null,
+    'max': null,
+    'nutrientDensity': null,
+    'unit': 'g'
+  },
 ];

@@ -16,7 +16,7 @@ const calculateTotal = (recommendations, foods, selectedFoods) => {
 };
 
 const formatValue = (value) => {
-  return value.toFixed(value < 2 ? 1 : 0);
+  return value.toFixed(value < 10 ? 1 : 0);
 };
 
 const getRecommendationToEnergy = (recommendedNutrientDensity, energy) => {
@@ -24,7 +24,8 @@ const getRecommendationToEnergy = (recommendedNutrientDensity, energy) => {
 };
 
 const getNutrientTableDataArray = (
-    foods, mealFoods, selectedFoods, recommendations, showRelationToEnergy) => {
+    foods, mealFoods, selectedFoods, recommendations, showRelationToEnergy
+) => {
   let selectedFoodPart = selectedFoods.length > 0 ? calculateTotal(
       recommendations, foods,
       mealFoods.filter(food => selectedFoods.includes(food.id))
@@ -33,7 +34,8 @@ const getNutrientTableDataArray = (
       recommendations, foods,
       mealFoods.filter(food => !selectedFoods.includes(food.id))
   );
-  let total = calculateTotal(recommendations, foods, mealFoods);
+
+  let total = nonSelectedFoodPart;
   let totalEnergy = nonSelectedFoodPart[0];
 
   let dataArray = [];
@@ -87,6 +89,14 @@ class NutrientData extends React.Component {
         foods, mealFoods, selectedFoods, recommendations.vitamins,
         this.state.showRelationToEnergy
     );
+    let dataArrayFats = getNutrientTableDataArray(
+        foods, mealFoods, selectedFoods, recommendations.fats,
+        this.state.showRelationToEnergy
+    );
+    let dataArrayCarbs = getNutrientTableDataArray(
+        foods, mealFoods, selectedFoods, recommendations.carbs,
+        this.state.showRelationToEnergy
+    );
 
     return (
         <div>
@@ -101,6 +111,8 @@ class NutrientData extends React.Component {
             <NutrientTableSection dataArray={dataArrayBasic} isToggleEnabled={false}/>
             <NutrientTableSection dataArray={dataArrayMinerals} name="Mineraalit"/>
             <NutrientTableSection dataArray={dataArrayVitamins} name="Vitamiinit"/>
+            <NutrientTableSection dataArray={dataArrayFats} name="Rasvat"/>
+            <NutrientTableSection dataArray={dataArrayCarbs} name="Hiilihydraatit"/>
           </table>
         </div>
     );
@@ -180,10 +192,12 @@ class NutrientTableSection extends React.Component {
                 </div>
               </td>
               <td className="nutrient-table__column nutrient-table__column--received nutrient-table__column--no-padding">
-                {formatValue(data.total)}
+                {formatValue(data.total)}&nbsp;
               </td>
               <td className="nutrient-table__column nutrient-table__column--recommended nutrient-table__column--no-padding">
-                &nbsp;/&nbsp;{formatValue(data.recommendation)}
+                {data.recommendation &&
+                  '/ ' + formatValue(data.recommendation)
+                }
               </td>
               <td className="nutrient-table__column">
                 {data.max}
