@@ -35,7 +35,7 @@ const getNutrientTableDataArray = (
       mealFoods.filter(food => !selectedFoods.includes(food.id))
   );
 
-  let total = nonSelectedFoodPart;
+  let total = selectedFoodPart ? calculateTotal(recommendations, foods, mealFoods) : nonSelectedFoodPart;
   let totalEnergy = nonSelectedFoodPart[0];
 
   let dataArray = [];
