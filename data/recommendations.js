@@ -202,7 +202,25 @@ exports.minerals = [
     'max': 300,
     'nutrientDensity': 23,
     'unit': 'µg'
-  }
+  },
+  {
+    'id': 50,
+    'name': 'Natrium',
+    'male': 0,
+    'female': 0,
+    'max': 2000,
+    'nutrientDensity': null,
+    'unit': 'mg'
+  },
+  {
+    'id': 51,
+    'name': 'Suola',
+    'male': 0,
+    'female': 0,
+    'max': 5000,
+    'nutrientDensity': null,
+    'unit': 'mg'
+  },
 ];
 
 exports.fats = [

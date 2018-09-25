@@ -16,7 +16,7 @@ const calculateTotal = (recommendations, foods, selectedFoods) => {
 };
 
 const formatValue = (value) => {
-  return value.toFixed(value < 10 ? 1 : 0);
+  return value.toFixed(value > 0 && value < 10 ? 1 : 0);
 };
 
 const getRecommendationToEnergy = (recommendedNutrientDensity, energy) => {
@@ -196,7 +196,7 @@ class NutrientTableSection extends React.Component {
                 {formatValue(data.total)}&nbsp;
               </td>
               <td className="nutrient-table__column nutrient-table__column--recommended nutrient-table__column--no-padding">
-                {data.recommendation &&
+                {data.recommendation !== null &&
                   '/ ' + formatValue(data.recommendation)
                 }
               </td>
