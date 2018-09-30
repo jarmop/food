@@ -8,7 +8,7 @@ const DAY_IN_MS = 86400000;
  * @returns {string}
  */
 const formatDate = (date) => {
-  return date.getDate() + '.' + date.getMonth() + '.' + date.getFullYear();
+  return date.getDate() + '.' + (date.getMonth() + 1) + '.' + date.getFullYear();
 };
 
 const getDateByDay = (day) => {
