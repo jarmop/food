@@ -1,41 +1,27 @@
 import React from 'react';
 import './DatePicker.css';
+import moment from 'moment';
 
-const DAY_IN_MS = 86400000;
+const date = moment();
 
-/**
- * @param Date
- * @returns {string}
- */
-const formatDate = (date) => {
-  return date.getDate() + '.' + (date.getMonth() + 1) + '.' + date.getFullYear();
-};
-
-const getDateByDay = (day) => {
-  let newDate = new Date();
-  newDate.setDate(day);
-
-  return newDate;
-};
-
-const DatePicker = ({selectedDate, onDateChange}) => {
+const DatePicker = ({onDateChange}) => {
   return (
       <div className="date-picker">
         <button
             className="btn btn-primary"
             onClick={
-              () => onDateChange(getDateByDay(selectedDate.getDate() - 1))
+              () => onDateChange(date.subtract(1, 'days').toDate())
             }
         >
           {'<'}
         </button>
         <span className="selected-date">
-          {formatDate(selectedDate)}
+          {date.format('D.M.YYYY')}
         </span>
         <button
             className="btn btn-primary"
             onClick={
-              () => onDateChange(getDateByDay(selectedDate.getDate() + 1))
+              () => onDateChange(date.add(1, 'days').toDate())
             }
         >
           {'>'}

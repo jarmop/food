@@ -142,7 +142,6 @@ class App extends Component {
         <div className="grid">
           <div>
             <DatePicker
-                selectedDate={this.state.date}
                 onDateChange={this.setMealByDate}
             />
             <FoodInput foodOptions={foodOptions} onAdd={this.addFood}/>
