@@ -1,4 +1,4 @@
-const fs = require('fs');
+// const fs = require('fs');
 // const foods = require('../data/foods');
 // const outputFile = '../data/foods.json';
 // const outputFile = '../data/new-foods.json';
