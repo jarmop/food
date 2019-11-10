@@ -4,7 +4,7 @@
   "private": true,
   "homepage": "https://jarmop.github.io/food",
   "dependencies": {
-    "bootstrap": "4.1.3",
+    "bootstrap": "4.3.1",
     "firebase": "5.5.3",
     "gh-pages": "2.0.1",
     "moment": "2.22.2",
