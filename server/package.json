@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "license": "MIT",
   "dependencies": {
-    "firebase": "^5.4.2",
-    "request": "^2.88.0"
+    "firebase": "7.4.0",
+    "request": "2.88.0"
   }
 }

@@ -4,7 +4,7 @@ let recommendations = recommendationsData.basic.concat(recommendationsData.miner
 const kcalToKjRatio = 4.184;
 const URL = 'https://fineli.fi/fineli/api/v1/foods/[FOOD_ID]';
 const mapNutrientIdToFineliDataIndex = {
-  1: 50,
+  1: 48,
   2: 52,
   3: 53,
   4: 47,
@@ -12,8 +12,8 @@ const mapNutrientIdToFineliDataIndex = {
   6: 43,
   7: 45,
   8: 42,
-  9: 48,
-  10: 49,
+  9: 50,
+  10: 51,
   11: 31,
   12: 38,
   13: 34,
@@ -25,8 +25,8 @@ const mapNutrientIdToFineliDataIndex = {
   50: 36,
   51: 37,
   21: 3,
-  22: 2,
-  23: 1,
+  22: 1,
+  23: 2,
   24: 18,
   25: 19,
   26: 20,
