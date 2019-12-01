@@ -8,10 +8,6 @@ firebase.initializeApp(config.firebase);
 
 let db = firebase.firestore();
 
-db.settings({
-  timestampsInSnapshots: true
-});
-
 /**
  * @returns {Promise<any>}
  */

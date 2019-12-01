@@ -1,9 +1,5 @@
 import React, {Component} from 'react';
-// import {Typeahead} from 'react-bootstrap-typeahead';
-// import 'react-bootstrap-typeahead/css/Typeahead.css';
-// import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
-// import meals from './data/meals';
 import * as firestore from './firestore';
 import FoodInput from './FoodInput';
 import FoodList from './FoodList';
@@ -12,10 +8,6 @@ import DatePicker from './DatePicker';
 
 let foods = {};
 let foodOptions = [];
-
-const getFoods = () => {
-  return firestore.getFoods();
-};
 
 class App extends Component {
   constructor(props) {

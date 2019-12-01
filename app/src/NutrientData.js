@@ -1,7 +1,8 @@
 import React from 'react';
 import recommendations from './data/recommendations';
 import './NutrientData.css';
-import FoodBar from './FoodBar';
+import NutrientTableSection from './NutrientTableSection';
+import NutrientTableHead from './NutrientTableHead';
 
 const calculateTotal = (recommendations, foods, selectedFoods) => {
   return recommendations.map(recommendation => {
@@ -15,9 +16,6 @@ const calculateTotal = (recommendations, foods, selectedFoods) => {
   });
 };
 
-const formatValue = (value) => {
-  return value.toFixed(value > 0 && value < 10 ? 1 : 0);
-};
 
 const getRecommendationToEnergy = (recommendedNutrientDensity, energy) => {
   return energy / 1000 * recommendedNutrientDensity;
@@ -38,7 +36,7 @@ const getNutrientTableDataArray = (
   let total = selectedFoodPart ? calculateTotal(recommendations, foods, mealFoods) : nonSelectedFoodPart;
 
   let dataArray = [];
-  recommendations.map((recommendation, index) => {
+  recommendations.forEach((recommendation, index) => {
     dataArray.push({
       name: recommendation.name,
       recommendation: showRelationToEnergy && recommendation.nutrientDensity
@@ -61,7 +59,7 @@ class NutrientData extends React.Component {
     super(props);
 
     this.state = {
-      showRelationToEnergy: true,
+      showRelationToEnergy: false,
     };
 
     this.toggleMeasuringType = this.toggleMeasuringType.bind(this);
@@ -116,99 +114,6 @@ class NutrientData extends React.Component {
             <NutrientTableSection dataArray={dataArrayCarbs} name="Hiilihydraatit"/>
           </table>
         </div>
-    );
-  }
-}
-
-const NutrientTableHead = ({dataArray}) => {
-  return (
-      <thead>
-      <tr>
-        <th className="nutrient-table__column nutrient-table__column--toggle"></th>
-        <th className="nutrient-table__column nutrient-table__column--name">Nimi</th>
-        <th className="nutrient-table__column nutrient-table__column--amount" colSpan="3">Saanti / suositus
-        </th>
-        <th className="nutrient-table__column nutrient-table__column--max">Yläraja</th>
-        <th className="nutrient-table__column nutrient-table__column--unit">Yksikkö</th>
-      </tr>
-      </thead>
-  );
-};
-
-class NutrientTableSection extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      isVisible: 'isVisible' in props ? props.isVisible : true,
-      isToggleEnabled: 'isToggleEnabled' in props ? props.isToggleEnabled : true,
-    };
-
-    this.show = this.show.bind(this);
-    this.hide = this.hide.bind(this);
-  }
-
-  show() {
-    this.setState({
-      isVisible: true,
-    });
-  }
-
-  hide() {
-    this.setState({
-      isVisible: false,
-    });
-  }
-
-  render() {
-    let {dataArray, name} = this.props;
-
-    return (
-        <tbody className="nutrient-table__section">
-        {!this.state.isVisible &&
-          <tr>
-            <td valign="top">
-              <button className="nutrient-table__section-toggle" onClick={this.show}>+</button>
-            </td>
-            <td colSpan="6">{name}</td>
-          </tr>
-        }
-        {this.state.isVisible && dataArray.map((data, index) =>
-            <tr key={index}>
-              {index === 0 &&
-              <td rowSpan={dataArray.length} valign="top">
-                {this.state.isToggleEnabled &&
-                  <button className="nutrient-table__section-toggle" onClick={this.hide}>-</button>
-                }
-              </td>
-              }
-              <td className="nutrient-table__column nutrient-table__column--name">{data.name}</td>
-              <td className="nutrient-table__column nutrient-table__column--no-padding">
-                <div>
-                  <FoodBar
-                      max={data.recommendation}
-                      part1={data.part1}
-                      part2={data.part2}
-                  />
-                </div>
-              </td>
-              <td className="nutrient-table__column nutrient-table__column--received nutrient-table__column--no-padding">
-                {formatValue(data.total)}&nbsp;
-              </td>
-              <td className="nutrient-table__column nutrient-table__column--recommended nutrient-table__column--no-padding">
-                {data.recommendation !== null &&
-                  '/ ' + formatValue(data.recommendation)
-                }
-              </td>
-              <td className="nutrient-table__column">
-                {data.max}
-              </td>
-              <td className="nutrient-table__column">
-                {data.unit}
-              </td>
-            </tr>
-        )}
-        </tbody>
     );
   }
 }
