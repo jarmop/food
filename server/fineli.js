@@ -73,7 +73,7 @@ exports.getFood = (foodId) => {
         name: body.name.fi
       };
       let nutrients = {};
-      recommendations.map(rec => {
+      recommendations.forEach(rec => {
         nutrients[rec.id] = body.data[mapNutrientIdToFineliDataIndex[rec.id]];
       });
 

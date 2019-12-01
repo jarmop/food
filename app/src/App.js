@@ -35,10 +35,9 @@ class App extends Component {
   }
 
   componentDidMount() {
-    Promise.all([firestore.getFoods(), firestore.getMeals(), firestore.getMeal(this.getCurrentMealId())]).then((values) => {
+    Promise.all([firestore.getFoods(), firestore.getMeal(this.getCurrentMealId())]).then((values) => {
       foods = values[0];
-      // let meals = values[1];
-      let meal = values[2];
+      let meal = values[1];
       if (!meal) {
         meal = [];
       }
@@ -54,7 +53,7 @@ class App extends Component {
   }
 
   addFood(newFoodId, amount) {
-    let mealFoods = this.state.mealFoods.slice();
+    let mealFoods = [...this.state.mealFoods];
 
     let foodAlreadyAdded = false;
     mealFoods = mealFoods.map(food => {
@@ -94,7 +93,7 @@ class App extends Component {
   }
 
   selectFood(selectedFoodId) {
-    let selectedFoods = this.state.selectedFoods.slice();
+    let selectedFoods = [...this.state.selectedFoods];
     if (selectedFoods.includes(selectedFoodId)) {
       selectedFoods = selectedFoods.filter(foodId => foodId !== selectedFoodId);
     } else {

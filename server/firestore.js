@@ -14,7 +14,7 @@ let db = firebase.firestore();
  */
 exports.setFoods = (foods) => {
   let batch = db.batch();
-  foods.map(food => {
+  foods.forEach(food => {
     let foodRef = db.collection(COLLECTION_FOODS).doc(food.id);
     batch.set(foodRef, food);
   });
@@ -49,7 +49,7 @@ exports.setFood = (food) => {
 
 exports.setMeals = (meals) => {
   let batch = db.batch();
-  meals.map(meal => {
+  meals.forEach(meal => {
     let mealRef = db.collection(COLLECTION_MEALS).doc();
     batch.set(mealRef, {foods: meal});
   });
