@@ -1,8 +1,8 @@
-const recommendationsData = require('../data/recommendations');
-let recommendations = recommendationsData.basic.concat(recommendationsData.minerals, recommendationsData.vitamins, recommendationsData.fats, recommendationsData.carbs);
+const request = require('request');
 
+const recommendationsData = require('../data/recommendations');
+const recommendations = recommendationsData.basic.concat(recommendationsData.minerals, recommendationsData.vitamins, recommendationsData.fats, recommendationsData.carbs);
 const kcalToKjRatio = 4.184;
-const URL = 'https://fineli.fi/fineli/api/v1/foods/[FOOD_ID]';
 const mapNutrientIdToFineliDataIndex = {
   1: 48,
   2: 52,
@@ -54,31 +54,30 @@ const mapNutrientIdToFineliDataIndex = {
   48: 16,
   49: 17,
 };
-
 const nutrientIdForEnergy = 20;
 const fineliDataIndexForEnergy = 0;
-
-const request = require('request');
+const getUrl = id => `https://fineli.fi/fineli/api/v1/foods/${id}`;
 
 exports.getFood = (foodId) => {
   return new Promise((resolve, reject) => {
-    let url = URL.replace(/\[FOOD_ID\]/, foodId);
-    request(url, {json: true}, (error, response, body) => {
+    request(getUrl(foodId), {json: true}, (error, response, body) => {
       if (error) {
         reject(error);
       }
 
-      let food = {
-        id: foodId,
-        name: body.name.fi
-      };
-      let nutrients = {};
-      recommendations.forEach(rec => {
-        nutrients[rec.id] = body.data[mapNutrientIdToFineliDataIndex[rec.id]];
-      });
+      const nutrients = recommendations.reduce((nutrients, recommendation) => {
+        nutrients[recommendation.id] = body.data[mapNutrientIdToFineliDataIndex[recommendation.id]];
+        return nutrients;
+      }, {});
 
-      nutrients[nutrientIdForEnergy] = Math.round(body.data[fineliDataIndexForEnergy] / kcalToKjRatio);
-      food.nutrients = nutrients;
+      const food = {
+        id: foodId,
+        name: body.name.fi,
+        nutrients: {
+          ...nutrients,
+          [nutrientIdForEnergy]: Math.round(body.data[fineliDataIndexForEnergy] / kcalToKjRatio)
+        },
+      };
 
       resolve(food);
     });
