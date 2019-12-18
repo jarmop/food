@@ -6,9 +6,6 @@ import FoodList from './FoodList';
 import NutrientData from './NutrientData';
 import DatePicker from './DatePicker';
 
-let foods = {};
-let foodOptions = [];
-
 class App extends Component {
   constructor(props) {
     super();
@@ -18,6 +15,8 @@ class App extends Component {
       selectedFoods: [],
       mealFoods: [],
       date: new Date(),
+      foods: {},
+      foodOptions: [],
     };
 
     this.addFood = this.addFood.bind(this);
@@ -35,44 +34,37 @@ class App extends Component {
   }
 
   componentDidMount() {
-    Promise.all([firestore.getFoods(), firestore.getMeal(this.getCurrentMealId())]).then((values) => {
-      foods = values[0];
-      let meal = values[1];
-      if (!meal) {
-        meal = [];
-      }
-
-      foodOptions = Object.keys(foods).map(foodId => ({id: foodId, label: foods[foodId].name}));
-
+    Promise.all([firestore.getFoods(), firestore.getMeal(this.getCurrentMealId())]).then(([foods, meal = []]) => {
       this.setState({
         mealFoods: meal,
         initialized: true,
+        foods: foods,
+        foodOptions: Object.keys(foods).map(foodId => ({id: foodId, label: foods[foodId].name})),
       });
     });
-
   }
 
   addFood(newFoodId, amount) {
-    let mealFoods = [...this.state.mealFoods];
-
-    let foodAlreadyAdded = false;
-    mealFoods = mealFoods.map(food => {
-      if (newFoodId === food.id) {
-        foodAlreadyAdded = true;
-        return {
-          id: food.id,
-          amount: food.amount + amount,
-        }
-      }
-      return food;
-    });
-
-    if (!foodAlreadyAdded) {
-      mealFoods.push({
-        id: newFoodId,
-        amount: amount,
-      });
-    }
+    const mealFoods = (this.state.mealFoods.find(food => food.id === newFoodId))
+        ?
+        this.state.mealFoods.map(food => {
+          if (newFoodId === food.id) {
+            return {
+              id: food.id,
+              amount: food.amount + amount,
+            };
+          }
+          return food;
+        })
+        :
+        [
+          ...this.state.mealFoods,
+          {
+            id: newFoodId,
+            amount: amount,
+          },
+        ]
+    ;
 
     this.setState({
       mealFoods: mealFoods,
@@ -82,7 +74,7 @@ class App extends Component {
   }
 
   deleteFood(foodIds) {
-    let mealFoods = this.state.mealFoods.filter(food => !foodIds.includes(food.id));
+    const mealFoods = this.state.mealFoods.filter(food => !foodIds.includes(food.id));
 
     this.setState({
       mealFoods: mealFoods,
@@ -93,14 +85,16 @@ class App extends Component {
   }
 
   selectFood(selectedFoodId) {
-    let selectedFoods = [...this.state.selectedFoods];
-    if (selectedFoods.includes(selectedFoodId)) {
-      selectedFoods = selectedFoods.filter(foodId => foodId !== selectedFoodId);
-    } else {
-      selectedFoods.push(selectedFoodId);
-    }
     this.setState({
-      selectedFoods: selectedFoods,
+      selectedFoods: (this.state.selectedFoods.includes(selectedFoodId))
+          ?
+          this.state.selectedFoods.filter(foodId => foodId !== selectedFoodId)
+          :
+          [
+            ...this.state.selectedFoods,
+            selectedFoodId,
+          ]
+      ,
     });
   }
 
@@ -135,9 +129,9 @@ class App extends Component {
             <DatePicker
                 onDateChange={this.setMealByDate}
             />
-            <FoodInput foodOptions={foodOptions} onAdd={this.addFood}/>
+            <FoodInput foodOptions={this.state.foodOptions} onAdd={this.addFood}/>
             <FoodList
-                foods={foods}
+                foods={this.state.foods}
                 mealFoods={this.state.mealFoods}
                 selectedFoods={this.state.selectedFoods}
                 onDelete={foodId => this.deleteFood(foodId)}
@@ -147,7 +141,7 @@ class App extends Component {
           </div>
           <div>
             <NutrientData
-                foods={foods}
+                foods={this.state.foods}
                 mealFoods={this.state.mealFoods}
                 selectedFoods={this.state.selectedFoods}
             />
