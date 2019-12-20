@@ -34,7 +34,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    Promise.all([firestore.getFoods(), firestore.getMeal(this.getCurrentMealId())]).then(([foods, meal = []]) => {
+    Promise.all([firestore.getFoods(), firestore.getMeal(this.getCurrentMealId())]).then(([foods, meal]) => {
       this.setState({
         mealFoods: meal,
         initialized: true,

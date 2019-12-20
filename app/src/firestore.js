@@ -6,17 +6,17 @@ const COLLECTION_MEALS = 'meals';
 
 firebase.initializeApp(config.firebase);
 
-let db = firebase.firestore();
+const db = firebase.firestore();
 
 /**
- * @returns {Promise<any>}
+ * @returns {Promise<object>}
  */
 export const getFoods = () => {
   return new Promise((resolve, reject) => {
     db.collection(COLLECTION_FOODS).get().then(collection => {
-      let foods = {};
+      const foods = {};
       collection.forEach(doc => {
-        let food = doc.data();
+        const food = doc.data();
         foods[food.id] = food;
       });
 
@@ -26,14 +26,14 @@ export const getFoods = () => {
 };
 
 /**
- * @returns {Promise<any>}
+ * @returns {Promise<array>}
  */
 export const getMeals = () => {
   return new Promise((resolve, reject) => {
     db.collection(COLLECTION_MEALS).get().then(collection => {
-      let meals = [];
+      const meals = [];
       collection.forEach(doc => {
-        let meal = doc.data();
+        const meal = doc.data();
         meals.push(meal.foods);
       });
 
@@ -44,17 +44,12 @@ export const getMeals = () => {
 
 /**
  * @param mealId
- * @returns {Promise<any>}
+ * @returns {Promise<array>}
  */
 export const getMeal = (mealId) => {
-  let meal = null;
   return new Promise((resolve, reject) => {
     db.collection(COLLECTION_MEALS).doc(mealId).get().then(doc => {
-      if (doc.exists) {
-        meal = doc.data().foods;
-      }
-
-      resolve(meal);
+      resolve(doc.exists ? doc.data().foods : []);
     })
   });
 };
