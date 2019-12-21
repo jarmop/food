@@ -24,18 +24,18 @@ const getRecommendationToEnergy = (recommendedNutrientDensity, energy) => {
 const getNutrientTableDataArray = (
     foods, mealFoods, selectedMealFoods, nonSelectedMealFoods, recommendations, showRelationToEnergy, totalEnergy
 ) => {
-  let selectedFoodPart = selectedMealFoods.length > 0 ? calculateTotal(
+  const selectedFoodPart = selectedMealFoods.length > 0 ? calculateTotal(
       recommendations, foods,
       selectedMealFoods
   ) : null;
-  let nonSelectedFoodPart = calculateTotal(
+  const nonSelectedFoodPart = calculateTotal(
       recommendations, foods,
       nonSelectedMealFoods
   );
 
-  let total = selectedFoodPart ? calculateTotal(recommendations, foods, mealFoods) : nonSelectedFoodPart;
+  const total = selectedFoodPart ? calculateTotal(recommendations, foods, mealFoods) : nonSelectedFoodPart;
 
-  let dataArray = [];
+  const dataArray = [];
   recommendations.forEach((recommendation, index) => {
     dataArray.push({
       name: recommendation.name,
@@ -72,27 +72,27 @@ class NutrientData extends React.Component {
   }
 
   render() {
-    let {foods, mealFoods, selectedFoods} = this.props;
-    let selectedMealFoods = mealFoods.filter(food => selectedFoods.includes(food.id));
-    let nonSelectedMealFoods = mealFoods.filter(food => !selectedFoods.includes(food.id));
-    let totalEnergy = calculateTotal(recommendations.basic.slice(0,1), foods, nonSelectedMealFoods).pop();
-    let dataArrayBasic = getNutrientTableDataArray(
+    const {foods, mealFoods, selectedFoods} = this.props;
+    const selectedMealFoods = mealFoods.filter(food => selectedFoods.includes(food.id));
+    const nonSelectedMealFoods = mealFoods.filter(food => !selectedFoods.includes(food.id));
+    const totalEnergy = calculateTotal(recommendations.basic.slice(0,1), foods, nonSelectedMealFoods).pop();
+    const dataArrayBasic = getNutrientTableDataArray(
         foods, mealFoods, selectedMealFoods, nonSelectedMealFoods, recommendations.basic,
         this.state.showRelationToEnergy, totalEnergy
     );
-    let dataArrayMinerals = getNutrientTableDataArray(
+    const dataArrayMinerals = getNutrientTableDataArray(
         foods, mealFoods, selectedMealFoods, nonSelectedMealFoods, recommendations.minerals,
         this.state.showRelationToEnergy, totalEnergy
     );
-    let dataArrayVitamins = getNutrientTableDataArray(
+    const dataArrayVitamins = getNutrientTableDataArray(
         foods, mealFoods, selectedMealFoods, nonSelectedMealFoods, recommendations.vitamins,
         this.state.showRelationToEnergy, totalEnergy
     );
-    let dataArrayFats = getNutrientTableDataArray(
+    const dataArrayFats = getNutrientTableDataArray(
         foods, mealFoods, selectedMealFoods, nonSelectedMealFoods, recommendations.fats,
         this.state.showRelationToEnergy, totalEnergy
     );
-    let dataArrayCarbs = getNutrientTableDataArray(
+    const dataArrayCarbs = getNutrientTableDataArray(
         foods, mealFoods, selectedMealFoods, nonSelectedMealFoods, recommendations.carbs,
         this.state.showRelationToEnergy, totalEnergy
     );

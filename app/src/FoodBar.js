@@ -2,8 +2,8 @@ import React from 'react';
 import './FoodBar.css';
 
 const FoodBar = ({max, part1, part2}) => {
-  let width1 = max > 0 ? Math.min(part1 / max * 100, 100) : 100;
-  let width2 = max > 0 ? Math.min(part2 / max * 100, Math.max(100 - width1, 0)) : 0;
+  const width1 = max > 0 ? Math.min(part1 / max * 100, 100) : 100;
+  const width2 = max > 0 ? Math.min(part2 / max * 100, Math.max(100 - width1, 0)) : 0;
   return (
       <div className="bar">
         <div className="bar__fill" style={{width: width1 + '%'}}></div>

@@ -11,6 +11,10 @@
     width: 26px;
 }
 
+.nutrient-table__column {
+    white-space: nowrap;
+}
+
 .nutrient-table__column--toggle {
     width: 2rem;
 }

@@ -34,7 +34,7 @@ class FoodInput extends React.Component {
   }
 
   render() {
-    let {foodOptions} = this.props;
+    const {foodOptions} = this.props;
 
     return (
         <div className="input-container">

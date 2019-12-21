@@ -32,7 +32,7 @@ class NutrientTableSection extends React.Component {
   }
 
   render() {
-    let {dataArray, name} = this.props;
+    const {dataArray, name} = this.props;
 
     return (
         <tbody className="nutrient-table__section">
